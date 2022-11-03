@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "986743529267",
+    "project_id": "boogilog-30005",
+    "storage_bucket": "boogilog-30005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986743529267:android:e99965813dd793a180a846",
+        "android_client_info": {
+          "package_name": "com.example.boogilog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986743529267-qh79r7m2tgprg4d0mbhknr551002ptb8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB00WJvpP6uCVXU_rMV1jujZYwA_1lp2kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986743529267-qh79r7m2tgprg4d0mbhknr551002ptb8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
