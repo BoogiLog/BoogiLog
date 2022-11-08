@@ -33,7 +33,7 @@
         android:id="@+id/editTextTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="235dp"
         android:ems="13"
         android:hint="아이디"
         android:inputType="textPersonName"
