@@ -17,7 +17,7 @@ class Notify : AppCompatActivity() {
             startActivity(intent)
         }
 
-        println("gu")
+
 
     }
 
