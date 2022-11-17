@@ -1,4 +1,6 @@
-package com.example.boogilog
+import com.example.boogilog.HomeFragment
+
+0package com.example.boogilog
 
 import android.content.Context
 import android.graphics.BitmapFactory
