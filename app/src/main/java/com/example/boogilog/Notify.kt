@@ -17,6 +17,8 @@ class Notify : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
     }
 
 }

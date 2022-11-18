@@ -1,31 +1,49 @@
 package com.example.boogilog
 
+import android.content.Context
 import android.content.Intent
-import android.media.Image
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import androidx.core.content.ContextCompat.startActivity
-import com.example.boogilog.databinding.ActivityNaviBinding
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.boogilog.databinding.FragmentHomeBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
+import java.time.LocalDateTime
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class HomeFragment : Fragment() {
-    private lateinit var binding: HomeFragment
+    private lateinit var binding: FragmentHomeBinding
+    private var adapter: PostAdapter? = null
+    var items = mutableListOf<PostItem>()
+
+    private val db : FirebaseFirestore = Firebase.firestore
+    private val itemsCollectionRef = db.collection("post")
+
+    lateinit var storage: FirebaseStorage
+    private var photoUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home, null)
-        val imgBtn = view.findViewById<ImageButton>(R.id.notify)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val imgBtn = binding.notify
+
+        updateList()
+        binding.listView.layoutManager = LinearLayoutManager(context)
+        adapter = PostAdapter(this@HomeFragment, items)
+        binding.listView.adapter = adapter
+
+        storage = Firebase.storage
+
+
 
         imgBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -33,7 +51,60 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        return view
+
+        /*
+        // DB 만들기
+        val nick = "hansung1"
+        val postHead = "어렵다"
+        val postBody = "이미지업로드!!!"
+        val profileImgUrl = "achol.png"
+        val postImgUrl = "image.jpg"
+        val postDate = LocalDateTime.now().toString()
+        val itemMap = hashMapOf(
+            "nick" to nick,
+            "postHead" to postHead,
+            "postBody" to postBody,
+            "profileImgUrl" to profileImgUrl,
+            "postImgUrl" to postImgUrl,
+            "postDate" to postDate
+        )
+
+        itemsCollectionRef.document("test").set(itemMap)
+
+         */
+        //createPost()
+
+        return binding.root
+    }
+
+    fun createPost(){
+        // DB 만들기
+        val nick = "hansung1"
+        val postHead = "어렵다"
+        val postBody = "이미지업로드!!!"
+        val profileImgUrl = "achol.png"
+        val postImgUrl = "image.jpg"
+        val postDate = LocalDateTime.now().toString()
+        val itemMap = hashMapOf(
+            "nick" to nick,
+            "postHead" to postHead,
+            "postBody" to postBody,
+            "profileImgUrl" to profileImgUrl,
+            "postImgUrl" to postImgUrl,
+            "postDate" to postDate
+        )
+
+        itemsCollectionRef.document("test").set(itemMap)
+    }
+
+    fun updateList(){
+        itemsCollectionRef.get().addOnSuccessListener {
+            items = mutableListOf<PostItem>()
+            for(doc in it){
+                items.add(PostItem(doc))
+            }
+            adapter?.updateList(items)
+        }
     }
 
     companion object {

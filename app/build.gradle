@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.boogilog"
-        minSdk 23
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -37,10 +37,15 @@ android {
         enabled true
     }
 
+    buildFeatures{
+        viewBinding true
+    }
+
     namespace 'com.example.boogilog'
 }
 
 dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -56,5 +61,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
-
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
 }
