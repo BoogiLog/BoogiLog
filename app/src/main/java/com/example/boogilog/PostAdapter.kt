@@ -1,5 +1,3 @@
-import com.example.boogilog.HomeFragment
-
 package com.example.boogilog
 
 import android.content.Context
