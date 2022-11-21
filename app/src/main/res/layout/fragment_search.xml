@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.SearchFragment">
 
     <ImageView
-        android:ib="@+id/account_iv_profile"
-        android:layout_alignParentLeft="true"
-
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="follow"
-        android:layout_toRightOf="@+id/account_iv_profile"
-        android:id="@+id/account_btn_follow_signout"
-        android:layout_alignParentBottom="true"/>
-
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"></RelativeLayout>
- </LinearLayout>
-
+        android:src="@drawable/posting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    />
