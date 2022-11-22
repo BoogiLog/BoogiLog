@@ -105,21 +105,22 @@
 
 
             <ImageView
-                android:id="@+id/imageView4"
+
+                android:id="@+id/imageArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/addimage" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageArea2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/addimage" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageArea3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
