@@ -18,11 +18,13 @@ private const val TAG_MY_PAGE = "my_page_fragment"
 class NaviActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityNaviBinding
+    private var gotoF = GoToPostFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNaviBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //gotoF = GoToPostFragment()
 
         setFragment(TAG_HOME, HomeFragment())
 
@@ -66,6 +68,15 @@ class NaviActivity : AppCompatActivity() {
         fragTransaction.commitAllowingStateLoss()
     }
 
+    fun fragmentChange(int: Int){
+        val transaction = supportFragmentManager.beginTransaction()
+        when(int){
+            1 -> transaction.replace(R.id.homeFragment, gotoF)
+            //2 -> transaction.replace(R.id.frameLayoutB, fragmentC)
+        }
+        transaction.commitAllowingStateLoss()
+    }
+
     private fun setClick(tag: String, fragment: Fragment){
         /*
         notifyBtn.setOnClickListener {
@@ -75,6 +86,10 @@ class NaviActivity : AppCompatActivity() {
         }
 
          */
+    }
+    companion object {
+        private const val TAG = "NaviActivity"
+        fun instance() = NaviActivity()
     }
 }
  

@@ -1,11 +1,16 @@
 package com.example.boogilog
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boogilog.databinding.FeedItemLayoutBinding
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -20,7 +25,8 @@ data class PostItem(var id : String,
                     var postBody : String,
                     var profile: String,
                     var postImgUrl : String,
-                    var postDate : String) {
+                    var postDate : String,
+                    val like: String) {
     constructor(doc: QueryDocumentSnapshot) :
             this(doc.id,
                 doc["nick"].toString(),
@@ -28,7 +34,8 @@ data class PostItem(var id : String,
                 doc["postBody"].toString(),
                 doc["profileImgUrl"].toString(),
                 doc["postImgUrl"].toString(),
-                doc["postDate"].toString())
+                doc["postDate"].toString(),
+                doc["like"].toString())
     constructor(key: String, map: Map<*, *>) :
             this(key,
                 map["nick"].toString(),
@@ -36,7 +43,8 @@ data class PostItem(var id : String,
                 map["postBody"].toString(),
                 map["profileImgUrl"].toString(),
                 map["postImgUrl"].toString(),
-                map["postDate"].toString(),)
+                map["postDate"].toString(),
+                map["like"].toString())
 
 }
 
@@ -48,23 +56,38 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         val postBody = binding.postBody
         val profileImgUrl = binding.profile
         val postImgUrl = binding.postImg
-
-
-
+        val like = binding.like
     }
+    /*
     fun interface OnItemClickListener {
-        fun onItemClick(student_id: String)
+        fun onItemClick(v: View?, position: Int)
     }
 
     private var itemClickListener: OnItemClickListener? = null
-
     fun setOnItemClickListener(listener: OnItemClickListener) {
         itemClickListener = listener
     }
+    */
+    // (2) 리스너 인터페이스
+    interface OnItemClickListener {
+        fun onClickListView(v: View, position: Int){
+
+        }
+    }
+    // (3) 외부에서 클릭 시 이벤트 설정
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
+    // (4) setItemClickListener로 설정한 함수 실행
+    private lateinit var itemClickListener : OnItemClickListener
 
     fun updateList(newList: List<PostItem>) {
         postItems = newList
         notifyDataSetChanged()
+    }
+
+    fun getDocId(position: Int): String {
+        return postItems[position].id
     }
 
     private fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
@@ -96,10 +119,32 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         var storage: FirebaseStorage
         storage = Firebase.storage
 
+        //val viewModel = ViewModelProvider()[MyViewModel::class.java]
+
         val item = postItems[position]
+        println("doc: " + item.id)
         holder.binding.nick.text= item.nick
         holder.binding.postHead.text = item.postHead
         holder.binding.postBody.text = item.postBody
+        //holder.binding.like = item.like
+        //val key = push()
+        holder.binding.like.setOnClickListener {
+            println("하트 클릭")
+            if(item.like == "0") {
+                //item.like.replace("0", "1")
+                item.like == "1"
+                //updateList(postItems)
+            }
+            else if(item.like == "1") {
+                item.like.replace("1", "0")
+                updateList(postItems)
+            }
+        }
+
+        if(item.like == "0")
+            holder.binding.like.setBackgroundResource(R.drawable.unlike)
+        else if (item.like == "1")
+            holder.binding.like.setBackgroundResource(R.drawable.like)
 
         val storageRef = storage.reference // reference to root
         val imageRef1 = storage.getReferenceFromUrl(
@@ -112,9 +157,16 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         //holder.binding.profile.background =
         displayImageButtonRef(imageRef1, holder.binding.profile)
         displayImageRef(imageRef2, holder.binding.postImg)
+
+        holder.itemView.setOnClickListener{
+            itemClickListener.onClickListView(it, position)
+            println("게시물 클릭")
+        }
     }
 
     override fun getItemCount(): Int {
         return postItems.size
     }
+
+
 }
