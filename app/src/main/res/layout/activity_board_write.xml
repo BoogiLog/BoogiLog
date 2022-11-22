@@ -65,6 +65,7 @@
             android:background="#999999" />
 
         <EditText
+            android:id="@+id/titleArea"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="5dp"
@@ -84,7 +85,7 @@
             android:layout_height="350dp">
 
             <EditText
-
+                android:id="@+id/contentArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -108,24 +109,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/addImage" />
+                app:srcCompat="@drawable/addimage" />
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/addImage" />
+                app:srcCompat="@drawable/addimage" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/addImage" />
+                app:srcCompat="@drawable/addimage" />
         </LinearLayout>
 
         <Button
+            android:id="@+id/postBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -134,41 +136,7 @@
             android:layout_marginRight="20dp"
             android:text="포스팅" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:weightSum="4"
-            app:layout_constraintBottom_toBottomOf="parent">
 
-            <ImageView
-                android:id="@+id/homeTap"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_home" />
-
-            <ImageView
-                android:id="@+id/searchTap"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_search" />
-
-            <ImageView
-                android:id="@+id/writingTap"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_create" />
-
-            <ImageView
-                android:id="@+id/profileTap"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_profile" />
-
-        </LinearLayout>
 
 
     </LinearLayout>

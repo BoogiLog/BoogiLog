@@ -14,11 +14,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
 
     private lateinit var binding : ActivityMainBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_search)
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+
 
     }
 }
