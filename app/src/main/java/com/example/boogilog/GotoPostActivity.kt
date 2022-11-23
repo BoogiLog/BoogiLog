@@ -59,17 +59,17 @@ class GoToPostActivity : AppCompatActivity() {
         println("파이어베이스 : " + result)
 
         itemsCollectionRef.document(result!!).get()
-        .addOnSuccessListener {
-            binding.nick.text = it["nick"].toString()
-            binding.postHead.text = it["postHead"].toString()
-            binding.postBody.text = it["postBody"].toString()
-            //binding.postImg.setImageBitmap(it["postImgUrl"].toString())
+            .addOnSuccessListener {
+                binding.nick.text = it["nick"].toString()
+                binding.postHead.text = it["postHead"].toString()
+                binding.postBody.text = it["postBody"].toString()
+                //binding.postImg.setImageBitmap(it["postImgUrl"].toString())
 
-            val imageRef = storage.getReferenceFromUrl(
-                "gs://boogilog-30005.appspot.com/"+it["postImgUrl"].toString()
-            )
-            displayImageRef(imageRef, binding.postImg)
-        }
+                val imageRef = storage.getReferenceFromUrl(
+                    "gs://boogilog-30005.appspot.com/"+it["postImgUrl"].toString()
+                )
+                displayImageRef(imageRef, binding.postImg)
+            }
     }
 
     private fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
