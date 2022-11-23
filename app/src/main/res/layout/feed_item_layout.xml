@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/nick"
@@ -32,9 +32,12 @@
 
     <ImageView
         android:id="@+id/postImg"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postBody"
         tools:srcCompat="@tools:sample/avatars" />
@@ -60,33 +63,4 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postHead" />
-
-    <ImageButton
-        android:id="@+id/like"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImg"
-        tools:ignore="TouchTargetSizeCheck"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageButton
-        android:id="@+id/like2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toEndOf="@+id/like"
-        app:layout_constraintTop_toBottomOf="@+id/postImg"
-        tools:ignore="TouchTargetSizeCheck"
-        tools:srcCompat="@tools:sample/avatars" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
