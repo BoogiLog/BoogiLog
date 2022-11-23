@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var addEmail: EditText
@@ -14,6 +15,7 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var signUpBtn : Button
 
     lateinit var auth: FirebaseAuth
+    var firebaseAuth:FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +30,15 @@ class SignUpActivity : AppCompatActivity() {
         signUpBtn.setOnClickListener {
             var email = addEmail.text.toString()
             var password = addPassword.text.toString()
+            firebaseAuth = FirebaseAuth.getInstance()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { result ->
-
                         if (result.isSuccessful) {
                             Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                            var intent = Intent(this, MakeProfileActivity::class.java)
+
+                            var intent = Intent(this, SignInActivity::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();

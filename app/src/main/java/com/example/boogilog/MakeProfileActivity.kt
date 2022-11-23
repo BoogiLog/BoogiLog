@@ -16,11 +16,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import kotlinx.android.synthetic.main.activity_make_profile.*
@@ -38,8 +41,10 @@ class MakeProfileActivity : AppCompatActivity(){
 
     lateinit var storage: FirebaseStorage
     lateinit var firestore: FirebaseFirestore
-    var database = FirebaseDatabase.getInstance().reference
-    var conditionRef = database.child("Users")
+    val database = FirebaseDatabase.getInstance().reference
+    val conditionRef = database.child("Users")
+    val db = Firebase.database
+    val itemsRef = db.getReference("Users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +69,9 @@ class MakeProfileActivity : AppCompatActivity(){
             intent
             launcher.launch(intent)
         }
+        submitBtn.setOnClickListener {
 
-
-
-        submitBtn.setOnClickListener (
-            ButtonListener()
-            )
-        )
+        }
     }
 
     inner class ButtonListener: View.OnClickListener {
