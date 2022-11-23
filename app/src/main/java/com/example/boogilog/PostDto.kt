@@ -3,8 +3,9 @@ package com.example.boogilog
 data class PostDto(private var id : String = "",
         private var postHead : String? = null,
         private var postBody : String? = null,
-        private var postImgUrl : String ? = null,
+        private var imageUrl : String ? = null,
         private var postDate : String = "") {
+
 
     fun setId(id : String){
         this.id = id
@@ -31,11 +32,11 @@ data class PostDto(private var id : String = "",
     }
 
     fun setPostImgUrl(postImgUrl : String?){
-        this.postImgUrl = postImgUrl
+        this.imageUrl = postImgUrl
     }
 
     fun getPostImgUrl() : String?{
-        return postImgUrl;
+        return imageUrl;
     }
 
     fun setPostDate(postDate : String){

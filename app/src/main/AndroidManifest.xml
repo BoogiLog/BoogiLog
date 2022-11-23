@@ -17,26 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoogiLog"
         tools:targetApi="31">
-
-        <activity android:name=".ChangeProfileFragment"
-            android:exported="false">
-        </activity>
-
-        <activity android:name=".SignUpActivity"
-            android:exported="false"/>
-
-        <activity
-            android:name=".NaviActivity"
-            android:exported="false">
-        </activity>
+        <activity android:name=".MakeProfileActivity"></activity>
         <activity
             android:name=".Notify"
             android:exported="false">
         </activity>
 
-        <activity
-            android:name=".GoToPostActivity"
-            android:exported="false">
+        <activity android:name=".GoToPostActivity"
+            android:exported="true">
+
         </activity>
 
         <activity

@@ -168,5 +168,4 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         return postItems.size
     }
 
-
 }

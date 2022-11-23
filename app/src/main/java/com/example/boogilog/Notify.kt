@@ -16,9 +16,5 @@ class Notify : AppCompatActivity() {
             val intent = Intent(this, NaviActivity::class.java)
             startActivity(intent)
         }
-
-
-
     }
-
 }

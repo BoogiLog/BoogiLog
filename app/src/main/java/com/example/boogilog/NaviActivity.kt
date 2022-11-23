@@ -6,8 +6,6 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.boogilog.HomeFragment
-import com.example.boogilog.R
 import com.example.boogilog.databinding.ActivityNaviBinding
 
 
@@ -18,19 +16,19 @@ private const val TAG_MY_PAGE = "my_page_fragment"
 class NaviActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityNaviBinding
-    private var gotoF = GoToPostFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNaviBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //gotoF = GoToPostFragment()
 
         setFragment(TAG_HOME, HomeFragment())
+        setFragment (TAG_MY_PAGE, ProfileFragment())
 
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
+                R.id.profileFragment -> setFragment(TAG_MY_PAGE, ProfileFragment())
             }
             true
         }
@@ -54,6 +52,7 @@ class NaviActivity : AppCompatActivity() {
         }
 
         val home = manager.findFragmentByTag(TAG_HOME)
+        val profile = manager.findFragmentByTag(TAG_MY_PAGE)
 
         if (home != null){
             fragTransaction.hide(home)
@@ -65,16 +64,13 @@ class NaviActivity : AppCompatActivity() {
             }
         }
 
-        fragTransaction.commitAllowingStateLoss()
-    }
-
-    fun fragmentChange(int: Int){
-        val transaction = supportFragmentManager.beginTransaction()
-        when(int){
-            1 -> transaction.replace(R.id.homeFragment, gotoF)
-            //2 -> transaction.replace(R.id.frameLayoutB, fragmentC)
+        if (tag == TAG_MY_PAGE) {
+            if (profile != null) {
+                fragTransaction.show(profile)
+            }
         }
-        transaction.commitAllowingStateLoss()
+
+        fragTransaction.commitAllowingStateLoss()
     }
 
     private fun setClick(tag: String, fragment: Fragment){
@@ -84,12 +80,14 @@ class NaviActivity : AppCompatActivity() {
             startActivity(intent)
             println("Notify")
         }
-
          */
     }
-    companion object {
-        private const val TAG = "NaviActivity"
-        fun instance() = NaviActivity()
+
+    fun changeFragment(profileFragment: ProfileFragment) {
+        setFragment (TAG_MY_PAGE, profileFragment)
+    }
+
+    fun changeNavigation() {
+        TODO("Not yet implemented")
     }
 }
- 
