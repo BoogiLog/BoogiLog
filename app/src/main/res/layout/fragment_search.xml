@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.SearchFragment">
@@ -12,10 +12,13 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:weightSum="3"
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:layout_marginBottom="4dp"
+                android:weightSum="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="-26dp">
 
                 <ImageView
                     android:id="@+id/searchTap"
@@ -37,7 +40,18 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:src="@drawable/ic_profile" />
+
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/writingbtn"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.955" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
