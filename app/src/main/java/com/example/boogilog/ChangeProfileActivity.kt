@@ -11,13 +11,29 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import kotlinx.android.synthetic.main.activity_change_profile.*
+import android.net.Uri
 
-class ChangeProfileFragment : AppCompatActivity() {
+import com.google.firebase.storage.FirebaseStorage
+
+import com.google.firebase.database.FirebaseDatabase
+
+import com.google.firebase.auth.FirebaseAuth
+import java.io.File
+
+
+class ChangeProfileActivity : AppCompatActivity() {
+    val  PICK_FROM_ALBUM = 1
+    lateinit  var  imageUri: Uri
+    lateinit  var  pathUri: kotlin.String
+    lateinit  var  tempFile: File
+    lateinit  var  mAuth: FirebaseAuth
+    lateinit  var  mDatabase: FirebaseDatabase
+    lateinit  var  mStorage: FirebaseStorage
 
     lateinit var bitmap: Bitmap
     lateinit var backgrdImg : ImageView
 
-    val permissionList = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    val permissionList = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
     val checkPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
         result.forEach {
             if(!it.value) {
@@ -33,8 +49,6 @@ class ChangeProfileFragment : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_change_profile)
-
         checkPermission.launch(permissionList)
 
         galleryBtn.setOnClickListener {
@@ -48,7 +62,7 @@ class ChangeProfileFragment : AppCompatActivity() {
 
     }
 
-    private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == RESULT_OK && it.data!=null) {
             val extras = it.data!!.extras
             bitmap = extras?.get("data") as Bitmap

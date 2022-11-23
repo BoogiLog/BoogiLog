@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity : AppCompatActivity() {
@@ -36,7 +35,7 @@ class SignUpActivity : AppCompatActivity() {
 
                         if (result.isSuccessful) {
                             Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                            var intent = Intent(this, SignInActivity::class.java)
+                            var intent = Intent(this, MakeProfileActivity::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
