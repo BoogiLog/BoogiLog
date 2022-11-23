@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permisson android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,24 +16,43 @@
         android:theme="@style/Theme.BoogiLog"
         tools:targetApi="31">
 
-        <activity android:name=".ChangeProfileFragment"
+        <activity
+            android:name=".BoardWriteActivity"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
         </activity>
 
-        <activity android:name=".SignUpActivity"
-            android:exported="false"/>
 
         <activity
-            android:name=".NaviActivity"
+            android:name=".Search"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Board.BoardwriteActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
             android:name=".Notify"
+            android:exported="false" />
+        <activity
+            android:name=".GoToPostActivity"
             android:exported="false">
         </activity>
 
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NaviActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
