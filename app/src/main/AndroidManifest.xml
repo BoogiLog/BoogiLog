@@ -29,10 +29,6 @@
             android:name=".NaviActivity"
             android:exported="false">
         </activity>
-        <activity
-            android:name=".Notify"
-            android:exported="false">
-        </activity>
 
         <activity
             android:name=".MainActivity"
