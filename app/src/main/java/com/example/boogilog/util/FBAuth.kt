@@ -17,6 +17,7 @@ class FBAuth {
             return auth.currentUser?.uid.toString()
 
         }
+
         fun getTime() : String {
 
             val currentDataTime = Calendar.getInstance().time

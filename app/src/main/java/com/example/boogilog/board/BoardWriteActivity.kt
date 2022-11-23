@@ -27,6 +27,7 @@ class BoardWriteActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this,R.layout.activity_board_write)
 
         binding.postBtn.setOnClickListener {

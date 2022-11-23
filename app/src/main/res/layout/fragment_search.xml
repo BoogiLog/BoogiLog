@@ -47,7 +47,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/writingbtn"
+                android:src="@drawable/posting"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
