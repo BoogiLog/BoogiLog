@@ -70,6 +70,7 @@ class MakeProfileActivity : AppCompatActivity(){
         submitBtn.setOnClickListener (
             ButtonListener()
             )
+        )
     }
 
     inner class ButtonListener: View.OnClickListener {

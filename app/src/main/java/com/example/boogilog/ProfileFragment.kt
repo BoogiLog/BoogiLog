@@ -42,7 +42,9 @@ class ProfileFragment : Fragment() {
 
         mBinding.profile.setImageURI(uri)   //갤러리에서 선택한 이미지를 해당 이미지뷰에서 보여줌.
         //게시글 업로드 버튼을 누르면 Firebase Storage에 이미지를 업로드 하는 함수 실행.
-
+        mBinding.editBtn.setOnClickListener {
+            uploadImageTOFirebase(uri!!)
+        }
 
         return mBinding.root
     }
