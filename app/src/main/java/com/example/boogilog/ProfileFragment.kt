@@ -72,8 +72,8 @@ class ProfileFragment : Fragment() {
             //db에 데이터 저장.
             store!!.collection("posts").document().set(contentDTO)
             //저장 후 홈 프래그먼트로 이동.
-            (activity as NaviActivity).changeFragment(ProfileFragment())
-            (activity as NaviActivity).changeNavigation()
+            //(activity as NaviActivity).changeFragment(ProfileFragment())
+            //(activity as NaviActivity).changeNavigation()
         }.addOnFailureListener {
             println(it)
             Toast.makeText(activity, "업로드 실패", Toast.LENGTH_SHORT).show()
