@@ -1,5 +1,3 @@
-import com.example.boogilog.HomeFragment
-
 package com.example.boogilog
 
 import android.content.Context
@@ -50,9 +48,6 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         val postBody = binding.postBody
         val profileImgUrl = binding.profile
         val postImgUrl = binding.postImg
-
-
-
     }
     fun interface OnItemClickListener {
         fun onItemClick(student_id: String)
