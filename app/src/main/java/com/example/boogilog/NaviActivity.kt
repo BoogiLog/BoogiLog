@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.example.boogilog.HomeFragment
 import com.example.boogilog.R
 import com.example.boogilog.databinding.ActivityNaviBinding

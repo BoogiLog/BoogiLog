@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.boogilog.databinding.ActivityPostBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,17 +20,25 @@ class PostWrite : AppCompatActivity() {
 
     private val db : FirebaseFirestore = Firebase.firestore
     private val itemsCollectionRef = db.collection("users")
+    private val itemsCollectionRef2 = db.collection("post")
 
     lateinit var storage: FirebaseStorage
     private var photoUri: Uri? = null
 
     var auth: FirebaseAuth? = null
-
+    var document:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val viewModel = ViewModelProvider(this)[MyViewModel::class.java]
+
+        viewModel.countLiveData.observe(this){
+            document = it
+        }
+
 
         binding.back.setOnClickListener {
             Toast.makeText(baseContext, "게시물 등록 취소", Toast.LENGTH_SHORT).show()
@@ -37,17 +46,8 @@ class PostWrite : AppCompatActivity() {
             startActivity(intent)
         }
 
-        println("Check Head : " + binding.postingHead.text.toString())
-        println("Check Body : " + binding.postingBody.text.toString())
-        //val postImg = "image.jpg"
-        //val postDate = LocalDateTime.now().toString()
-        val head = binding.postingHead.text.toString()
-        val body = binding.postingBody.text.toString()
-
-
-        //println("postingHead" +postingBody)
-
         binding.submit.setOnClickListener {
+            viewModel.increaseCount()
             val postHead = binding.postingHead.text.toString()
             val postBody = binding.postingBody.text.toString()
             println("등록 클릭")
@@ -62,8 +62,12 @@ class PostWrite : AppCompatActivity() {
             auth = FirebaseAuth.getInstance()
             val path = auth?.currentUser?.uid
             itemsCollectionRef.document(path.toString()).collection("posting").document("postData3").set(itemMap)
+            itemsCollectionRef2.document("test").set(itemMap)
+
+            println("ViewModel : " + document)
+            Toast.makeText(baseContext, "게시물 등록 완료", Toast.LENGTH_SHORT).show()
+            //val intent = Intent(this, NaviActivity::class.java)
+            //startActivity(intent)
         }
-
-
     }
 }

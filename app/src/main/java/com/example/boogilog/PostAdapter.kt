@@ -58,16 +58,7 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         val postImgUrl = binding.postImg
         //val like = binding.like
     }
-    /*
-    fun interface OnItemClickListener {
-        fun onItemClick(v: View?, position: Int)
-    }
 
-    private var itemClickListener: OnItemClickListener? = null
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        itemClickListener = listener
-    }
-    */
     // (2) 리스너 인터페이스
     interface OnItemClickListener {
         fun onClickListView(v: View, position: Int){
