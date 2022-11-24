@@ -69,5 +69,9 @@ class PostWrite : AppCompatActivity() {
             //val intent = Intent(this, NaviActivity::class.java)
             //startActivity(intent)
         }
+        binding.selectImg.setOnClickListener {
+            val intent = Intent(this, testActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

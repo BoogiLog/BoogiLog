@@ -5,15 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boogilog.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.fragment_profile.*
 import java.time.LocalDateTime
 
 class ProfileFragment : Fragment() {
@@ -45,9 +48,14 @@ class ProfileFragment : Fragment() {
         adapter = ProfileAdapter(this@ProfileFragment, userdata)
         binding.recyclerView.adapter = adapter
         updateList()
+
+        db.collection("users")
+            .document("test").get()
+            .addOnSuccessListener {
+                binding.following.text = it["nick"].toString()
+            }
+
         storage = Firebase.storage
-
-
         adapter.setItemClickListener(object : ProfileAdapter.OnItemClickListener {
             override fun onClickListView(v: View, position: Int) {
                 super.onClickListView(v, position)
