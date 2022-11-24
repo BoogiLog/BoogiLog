@@ -33,10 +33,6 @@ class SearchFragment : Fragment() {
 
        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
-        binding.postingbtn.setOnClickListener {
-            val intent = Intent(context, BoardWriteActivity::class.java)
-            startActivity(intent)
-        }
 
 
 
