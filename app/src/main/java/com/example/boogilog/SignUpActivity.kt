@@ -42,9 +42,10 @@ class SignUpActivity : AppCompatActivity() {
                         } else {
                             try{
                                 result.result;
-                            }catch (e: Exception) {
+                            } catch (e: Exception) {
                                 e.printStackTrace();
-                                Toast.makeText(this, "이미있는 이메일 형식입니다\n다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                                if(password.length>=6)
+                                    Toast.makeText(this, "입력하신 이메일을 다시 확인해주세요", Toast.LENGTH_LONG).show()
                             }
                         }
                     }
