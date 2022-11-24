@@ -5,10 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.inflate
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boogilog.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -50,7 +48,7 @@ class HomeFragment : Fragment() {
 
         imgBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                val intent = Intent(context, Notify::class.java)
+                val intent = Intent(context, PostWrite::class.java)
                 startActivity(intent)
             }
         })

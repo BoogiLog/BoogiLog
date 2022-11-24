@@ -41,7 +41,7 @@ class GoToPostActivity : AppCompatActivity() {
         var storage: FirebaseStorage
         storage = Firebase.storage
 
-        val back = binding.imageButton
+        val back = binding.back
         back.setOnClickListener {
             val intent = Intent(this, NaviActivity::class.java)
             startActivity(intent)
