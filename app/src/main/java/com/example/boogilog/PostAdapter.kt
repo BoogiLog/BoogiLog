@@ -56,7 +56,7 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         val postBody = binding.postBody
         val profileImgUrl = binding.profile
         val postImgUrl = binding.postImg
-        val like = binding.like
+        //val like = binding.like
     }
     /*
     fun interface OnItemClickListener {
@@ -128,23 +128,23 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
         holder.binding.postBody.text = item.postBody
         //holder.binding.like = item.like
         //val key = push()
-        holder.binding.like.setOnClickListener {
-            println("하트 클릭")
-            if(item.like == "0") {
+        //holder.binding.like.setOnClickListener {
+        //    println("하트 클릭")
+         //   if(item.like == "0") {
                 //item.like.replace("0", "1")
-                item.like == "1"
+           //     item.like == "1"
                 //updateList(postItems)
-            }
-            else if(item.like == "1") {
-                item.like.replace("1", "0")
-                updateList(postItems)
-            }
-        }
+         //   }
+         //   else if(item.like == "1") {
+         //       item.like.replace("1", "0")
+         //       updateList(postItems)
+         //   }
+      //  }
 
-        if(item.like == "0")
-            holder.binding.like.setBackgroundResource(R.drawable.unlike)
-        else if (item.like == "1")
-            holder.binding.like.setBackgroundResource(R.drawable.like)
+      //  if(item.like == "0")
+       //     holder.binding.like.setBackgroundResource(R.drawable.unlike)
+      //  else if (item.like == "1")
+      //      holder.binding.like.setBackgroundResource(R.drawable.like)
 
         val storageRef = storage.reference // reference to root
         val imageRef1 = storage.getReferenceFromUrl(
