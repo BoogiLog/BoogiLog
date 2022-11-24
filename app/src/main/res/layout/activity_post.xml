@@ -32,36 +32,6 @@
         app:srcCompat="@drawable/back"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <EditText
-        android:id="@+id/postingHead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="14"
-        android:hint="제목"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/posting" />
-
-    <EditText
-        android:id="@+id/postingBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="19"
-        android:gravity="start|top"
-        android:hint="본문"
-        android:inputType="textMultiLine"
-        android:minHeight="48dp"
-        android:outlineProvider="none"
-        android:singleLine="false"
-        app:guidelineUseRtl="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postingHead" />
-
     <ImageButton
         android:id="@+id/selectImg"
         android:layout_width="80dp"
@@ -85,5 +55,32 @@
         android:text="등록"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/postingHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="13"
+        android:hint="제목"
+        android:inputType="textPersonName"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/posting" />
+
+    <EditText
+        android:id="@+id/postingBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="17"
+        android:gravity="start|top"
+        android:hint="본문"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postingHead" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

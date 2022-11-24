@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boogilog.databinding.FragmentHomeBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,7 +25,10 @@ class HomeFragment : Fragment() {
     private var adapter = PostAdapter(this@HomeFragment, items)
 
     private val db : FirebaseFirestore = Firebase.firestore
-    private val itemsCollectionRef = db.collection("post")
+    private val itemsCollectionRef = db.collection("users")
+
+    val auth = FirebaseAuth.getInstance()
+    val path = auth?.currentUser?.uid
 
     lateinit var storage: FirebaseStorage
     private var photoUri: Uri? = null
@@ -90,7 +94,7 @@ class HomeFragment : Fragment() {
         itemsCollectionRef.document("test").set(itemMap)
     }
     fun updateList(){
-        itemsCollectionRef.get().addOnSuccessListener {
+        itemsCollectionRef.document(path.toString()).collection("posting").get().addOnSuccessListener {
             items = mutableListOf<PostItem>()
             for(doc in it){
                 items.add(PostItem(doc))
