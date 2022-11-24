@@ -66,6 +66,7 @@ class BoardWriteActivity : AppCompatActivity() {
 
     }
 
+
     private fun imageUpload(key : String) {
 
         val storage = Firebase.storage
@@ -95,8 +96,7 @@ class BoardWriteActivity : AppCompatActivity() {
         if(resultCode == RESULT_OK && requestCode == 100) {
             binding.imageArea.setImageURI(data?.data)
         }
-
-
     }
-
 }
+
+
