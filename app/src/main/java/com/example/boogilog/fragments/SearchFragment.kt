@@ -13,6 +13,7 @@ import com.example.boogilog.R
 import com.example.boogilog.board.BoardWriteActivity
 import com.example.boogilog.databinding.FragmentHomeBinding
 import com.example.boogilog.databinding.FragmentSearchBinding
+import kotlinx.android.synthetic.main.fragment_search.*
 
 
 class SearchFragment : Fragment() {
@@ -33,11 +34,9 @@ class SearchFragment : Fragment() {
 
        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
 
-        binding.postingbtn.setOnClickListener {
-            val intent = Intent(context, BoardWriteActivity::class.java)
-            startActivity(intent)
+        binding.postingbtn.setOnClickListener { val intent = Intent(context, BoardWriteActivity::class.java)
+        startActivity(intent)
         }
-
 
         return binding.root
     }
