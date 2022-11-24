@@ -37,23 +37,35 @@ class SignUpActivity : AppCompatActivity() {
                     .addOnCompleteListener { result ->
                         if (result.isSuccessful) {
                             Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-
                             var intent = Intent(this, SignInActivity::class.java)
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            try{
+                                result.result;
+                            }catch (e: Exception) {
+                                e.printStackTrace();
+                                Toast.makeText(this, "이미있는 이메일 형식입니다\n다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
             }
+
             else if(email.isEmpty() && password.isNotEmpty()){
                 Toast.makeText(this, "이메일을 입력하세요.", Toast.LENGTH_LONG).show();
             }
             else if(email.isNotEmpty() && password.isEmpty()){
                 Toast.makeText(this, "비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
             }
-            else {
+            else if (email.isEmpty() && password.isEmpty()) {
                 Toast.makeText(this, "이메일과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
             }
+            else if(password.length < 6) {
+                Toast.makeText(this, "비밀번호는 6자리 이상이어야 합니다.", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
     }

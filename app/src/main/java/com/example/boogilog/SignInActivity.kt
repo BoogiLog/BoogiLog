@@ -45,16 +45,16 @@ class SignInActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, password)
-                    ?.addOnCompleteListener(this) { task ->
+                    .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(baseContext, "${email}님 환영합니다!", Toast.LENGTH_SHORT).show()
-
                             login(email, password)
                         }
-                        else {
-                            Toast.makeText(baseContext, "로그인에 실패 하였습니다.", Toast.LENGTH_SHORT).show()
-                        }
                     }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                    }
+
             }
             else if(email.isEmpty() && password.isNotEmpty()){
                 Toast.makeText(this, "이메일을 입력하세요.", Toast.LENGTH_LONG).show();
@@ -62,8 +62,11 @@ class SignInActivity : AppCompatActivity() {
             else if(email.isNotEmpty() && password.isEmpty()){
                 Toast.makeText(this, "비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
             }
-            else {
-                Toast.makeText(baseContext, "이메일과 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
+            else if (email.isEmpty() && password.isEmpty()) {
+                Toast.makeText(this, "이메일과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
+            }
+            else if(password.length < 6) {
+                Toast.makeText(this, "비밀번호는 6자리 이상이어야 합니다.", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -81,17 +84,14 @@ class SignInActivity : AppCompatActivity() {
             .addOnCompleteListener {
                     result->
                 if(result.isSuccessful){
-
                     val user = firebaseAuth?.currentUser
                     val temail = user?.email
                     //val uid = user.uid
-
                     val itemMap = hashMapOf(
                         "email" to temail,
                     )
                     val itemRef = itemsRef.push()
                     itemRef.setValue(itemMap)
-
                     var intent = Intent(this, MakeProfileActivity::class.java)
                     startActivity(intent)
                 }

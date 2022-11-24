@@ -31,7 +31,7 @@ class PhotoAdapter(var context: Context, var photoList:ArrayList<Photo>) : Recyc
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view=LayoutInflater.from(context).inflate(R.layout.item_photo,parent,false)
+        var view=LayoutInflater.from(context).inflate(R.layout.item_photo, parent, false)
         return ViewHolder(view)
     }
 
