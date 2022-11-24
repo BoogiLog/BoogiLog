@@ -1,86 +1,102 @@
 package com.example.boogilog
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.boogilog.databinding.FragmentHomeBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boogilog.databinding.FragmentProfileBinding
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
-import kotlinx.android.synthetic.main.fragment_profile.view.*
-import java.text.SimpleDateFormat
-import java.util.*
+import com.google.firebase.storage.ktx.storage
+import java.time.LocalDateTime
 
 class ProfileFragment : Fragment() {
-    private lateinit var mBinding: FragmentProfileBinding
-    private var uri: Uri? = null
-    private var auth: FirebaseAuth? = null
-    private var store: FirebaseFirestore? = null
+    lateinit var binding: FragmentProfileBinding
+    var uid: String? = null
+    var auth: FirebaseAuth? = null
+    var firestore: FirebaseFirestore? = null
+    var storage: FirebaseStorage? = null
+    val db: FirebaseFirestore = Firebase.firestore
+    var userData = mutableListOf<User>()
+    var userdata = mutableListOf<User>()
+    private var adapter = ProfileAdapter(this@ProfileFragment, userdata)
+
+    private val itemsCollectionRef = db.collection("users")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        mBinding = FragmentProfileBinding.inflate(inflater, container, false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //firebase 서비스 초기화
+        uid = auth?.currentUser?.uid
         auth = FirebaseAuth.getInstance()
-        store = FirebaseFirestore.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
 
-        mBinding.profile.setImageURI(uri)   //갤러리에서 선택한 이미지를 해당 이미지뷰에서 보여줌.
-        //게시글 업로드 버튼을 누르면 Firebase Storage에 이미지를 업로드 하는 함수 실행.
-        mBinding.editBtn.setOnClickListener {
-            uploadImageTOFirebase(uri!!)
-        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = ProfileAdapter(this@ProfileFragment, userdata)
+        binding.recyclerView.adapter = adapter
+        updateList()
+        storage = Firebase.storage
 
-        return mBinding.root
+
+        adapter.setItemClickListener(object : ProfileAdapter.OnItemClickListener {
+            override fun onClickListView(v: View, position: Int) {
+                super.onClickListView(v, position)
+                //val intent = Intent(context, GoToPostFragment::class.java)
+                //startActivity(intent)
+                //viewModel.setKey("test")
+                //navi!!.fragmentChange(1)
+                println("아이디 : " + adapter.getDocId(position))
+                val key = adapter.getDocId(position).toString()
+                val intent = Intent(context, GoToPostActivity::class.java)
+                intent.putExtra("key", key)
+                startActivity(intent)
+            }
+        })
+        //createPost()
+
+        return binding.root
     }
-
-    fun uploadImageTOFirebase(uri: Uri) {
-        var storage: FirebaseStorage? = FirebaseStorage.getInstance()   //FirebaseStorage 인스턴스 생성
-        //파일 이름 생성.
-        var fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
-        //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
-        //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
-        var imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
-        //이미지 파일 업로드
-        imagesRef.putFile(uri!!).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
-            //Firebase Storage에 업로드된 이미지의 downloadUrl을 리턴한다.
-            return@continueWithTask imagesRef.downloadUrl
-        }.addOnSuccessListener {
-            //ContentDTO 데이터 클래스 생성.
-            var contentDTO: ProfileDto = ProfileDto()
-            contentDTO.postHead = mBinding.nickName.text.toString()
-            contentDTO.imageUrl = it.toString()
-            contentDTO.postBody = auth!!.currentUser!!.uid
-            contentDTO.userEmail = auth!!.currentUser!!.email
-            contentDTO.timestamp = System.currentTimeMillis()
-
-            //db에 데이터 저장.
-            store!!.collection("posts").document().set(contentDTO)
-            //저장 후 홈 프래그먼트로 이동.
-            //(activity as NaviActivity).changeFragment(ProfileFragment())
-            //(activity as NaviActivity).changeNavigation()
-        }.addOnFailureListener {
-            println(it)
-            Toast.makeText(activity, "업로드 실패", Toast.LENGTH_SHORT).show()
+    fun createPost(){
+        // DB 만들기
+        val nick = "hansung1"
+        val postHead = "어렵다"
+        val postBody = "이미지업로드!!!"
+        val profileImgUrl = "achol.png"
+        val postImgUrl = "image.jpg"
+        val postDate = LocalDateTime.now().toString()
+        val itemMap = hashMapOf(
+            "nick" to nick,
+            "postHead" to postHead,
+            "postBody" to postBody,
+            "profileImgUrl" to profileImgUrl,
+            "postImgUrl" to postImgUrl,
+            "postDate" to postDate
+        )
+        itemsCollectionRef.document("test").set(itemMap)
+    }
+    fun updateList(){
+        itemsCollectionRef.get().addOnSuccessListener {
+            userdata = mutableListOf<User>()
+            for(doc in it){
+                userdata.add(User(doc))
+            }
+            adapter?.updateList(userdata)
         }
     }
     companion object {
-        private const val TAG = "ProfileFragment"
+        private const val TAG_MY_HOME = "ProfileFragment"
         fun instance() = ProfileFragment()
     }
+
+
 }

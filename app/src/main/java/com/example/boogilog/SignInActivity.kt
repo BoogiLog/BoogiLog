@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -20,21 +21,29 @@ class SignInActivity : AppCompatActivity() {
     lateinit var loginBtn: Button
     lateinit var goSignUp : Button
     lateinit var auth: FirebaseAuth
+    lateinit var firestore :FirebaseFirestore
     var firebaseAuth:FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_singin)
+
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         val database = Firebase.database
-        val itemsRef = database.getReference("Users")
-        val databaseReference = database.getReference("message")
 
         inputEmail = findViewById(R.id.inputEmail)
         inputPwd = findViewById(R.id.inputPwd)
         loginBtn = findViewById(R.id.signInBtn)
         goSignUp = findViewById(R.id.gotoSignUp)
+
+        if(true) {
+            var userInfo = User()
+            userInfo.uid = auth?.uid
+            userInfo.userId = auth?.currentUser?.email
+            firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
+        }
 
         loginBtn.setOnClickListener {
 
@@ -77,21 +86,10 @@ class SignInActivity : AppCompatActivity() {
     }
 
     fun login(email:String, password:String){
-        val database = Firebase.database
-        val itemsRef = database.getReference("users")
-
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener {
                     result->
                 if(result.isSuccessful){
-                    val user = firebaseAuth?.currentUser
-                    val temail = user?.email
-                    //val uid = user.uid
-                    val itemMap = hashMapOf(
-                        "email" to temail,
-                    )
-                    val itemRef = itemsRef.push()
-                    itemRef.setValue(itemMap)
                     var intent = Intent(this, MakeProfileActivity::class.java)
                     startActivity(intent)
                 }
