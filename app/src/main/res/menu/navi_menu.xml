@@ -3,22 +3,17 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:title=""
+        android:title="홈"
         android:icon="@drawable/ic_home"/>
 
     <item
         android:id="@+id/searchFragment"
-        android:title=""
+        android:title="검색"
         android:icon="@drawable/ic_search"/>
 
     <item
-        android:id="@+id/writeFragment"
-        android:title=""
-        android:icon="@drawable/ic_create"/>
-
-    <item
         android:id="@+id/profileFragment"
-        android:title=""
+        android:title="프로필"
         android:icon="@drawable/ic_profile"/>
 
 </menu>
