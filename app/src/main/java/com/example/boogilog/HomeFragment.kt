@@ -53,28 +53,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-        /*
-        // DB 만들기
-        val nick = "hansung1"
-        val postHead = "어렵다"
-        val postBody = "이미지업로드!!!"
-        val profileImgUrl = "achol.png"
-        val postImgUrl = "image.jpg"
-        val postDate = LocalDateTime.now().toString()
-        val itemMap = hashMapOf(
-            "nick" to nick,
-            "postHead" to postHead,
-            "postBody" to postBody,
-            "profileImgUrl" to profileImgUrl,
-            "postImgUrl" to postImgUrl,
-            "postDate" to postDate
-        )
-        itemsCollectionRef.document("test").set(itemMap)
-        val viewModel = ViewModelProvider(this)[MyViewModel::class.java]
-        viewModel.key.observe(){
-            //result = it
-        }
-         */
         adapter.setItemClickListener(object : PostAdapter.OnItemClickListener {
             override fun onClickListView(v: View, position: Int) {
                 super.onClickListView(v, position)
