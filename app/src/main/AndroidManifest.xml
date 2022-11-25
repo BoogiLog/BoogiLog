@@ -21,7 +21,7 @@
         <activity android:name=".testActivity"></activity>
         <activity android:name=".AddPhotoActivity"></activity>
         <activity android:name=".MakeProfileActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignInActivity"></activity>
 
         <activity
             android:name=".PostWrite"
@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".SignInActivity"
+            android:name=".SignUpActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
