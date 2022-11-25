@@ -11,8 +11,9 @@
         android:id="@+id/backgroundProfile"
         android:layout_width="351dp"
         android:layout_height="205dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -45,13 +46,11 @@
         android:id="@+id/userId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="28dp"
         android:text="TextView"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
+        tools:layout_editor_absoluteY="16dp" />
 
     <Button
         android:id="@+id/editBtn"
@@ -59,6 +58,7 @@
         android:layout_height="42dp"
         android:layout_marginTop="160dp"
         android:layout_marginEnd="28dp"
+        android:background="@android:color/transparent"
         android:text="프로필 편집"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,25 +76,23 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/followingText"
+        android:id="@+id/followingList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="20dp"
         android:text="팔로잉"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/followerText"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile"
+        tools:layout_editor_absoluteX="334dp" />
 
     <TextView
         android:id="@+id/follower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="230dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="228dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followerText" />
+        tools:layout_editor_absoluteY="327dp" />
 
     <TextView
         android:id="@+id/following"
@@ -104,17 +102,6 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/follower"
-        app:layout_constraintTop_toBottomOf="@+id/followingText" />
-
-    <TextView
-        android:id="@+id/followerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="20dp"
-        android:text="팔로워"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/userId"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/followingList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
