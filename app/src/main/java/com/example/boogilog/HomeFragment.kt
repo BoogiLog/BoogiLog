@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val imgBtn = binding.notify
+        val imgBtn = binding.write
         navi = NaviActivity()
 
         updateList()
