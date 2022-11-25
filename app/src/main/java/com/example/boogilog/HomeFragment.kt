@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
     private var adapter = PostAdapter(this@HomeFragment, items)
 
     private val db : FirebaseFirestore = Firebase.firestore
-    private val itemsCollectionRef = db.collection("users")
+    private val itemsCollectionRef = db.collection("post")
 
     val auth = FirebaseAuth.getInstance()
     val path = auth?.currentUser?.uid

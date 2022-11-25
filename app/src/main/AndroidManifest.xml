@@ -22,6 +22,9 @@
         <activity android:name=".AddPhotoActivity"></activity>
         <activity android:name=".MakeProfileActivity"></activity>
         <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SearchUserActivity"></activity>
+        <activity android:name=".FindFollowerActivity"></activity>
+        <activity android:name=".FindFollowingActivity"></activity>
 
         <activity
             android:name=".PostWrite"
