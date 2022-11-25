@@ -17,12 +17,13 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 
 data class User (
-        var profileMsg: String?=null /*프로필 메세지*/,
-        var userId: String?=null /*닉네임*/,
-        var uid: String?=null /*uid*/,
+        var userId: String?=null, /*닉네임*/
+        var uid: String?=null, /*uid*/
         var imageUrl: String?=null,  /*사진 다운로드 경로*/
         var follower: String?=null,
-        var following: String?=null) {
+        var following: String?=null,
+        var profileMsg: String?=null/*프로필 메세지*/,
+) {
     constructor(doc: QueryDocumentSnapshot) :
             this(doc.id,
                 doc["profileMsg"].toString(),

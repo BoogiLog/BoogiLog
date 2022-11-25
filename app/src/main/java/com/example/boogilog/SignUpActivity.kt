@@ -8,6 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var addEmail: EditText
@@ -30,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
         signUpBtn.setOnClickListener {
             var email = addEmail.text.toString()
             var password = addPassword.text.toString()
+
             firebaseAuth = FirebaseAuth.getInstance()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
@@ -37,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
                     .addOnCompleteListener { result ->
                         if (result.isSuccessful) {
                             Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                            var intent = Intent(this, SignInActivity::class.java)
+                            var intent = Intent(this, MakeProfileActivity::class.java)
                             startActivity(intent)
                         } else {
                             try{

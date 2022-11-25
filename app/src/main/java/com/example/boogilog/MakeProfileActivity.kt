@@ -1,50 +1,61 @@
 package com.example.boogilog
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build.VERSION_CODES.O
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.view.View.inflate
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_photo.*
+import kotlinx.android.synthetic.main.activity_gotopost.*
 import kotlinx.android.synthetic.main.activity_make_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 class MakeProfileActivity : AppCompatActivity(){
-
-    lateinit var setProfile: ImageView
+    lateinit var setProfileBtn: ImageButton
     lateinit var setNickname: EditText
     lateinit var setProfileMsg :EditText
     lateinit var submitBtn: Button
+    lateinit var nickname:String
+    lateinit var profileMessage:String
 
     var selectImage: Uri?=null
 
     lateinit var storage: FirebaseStorage
-    lateinit var firestore: FirebaseFirestore
     val database = FirebaseDatabase.getInstance().reference
     val conditionRef = database.child("Users")
-    val db = Firebase.database
-    val itemsRef = db.getReference("Users")
+    lateinit var firestore :FirebaseFirestore
+
+    val db: FirebaseFirestore = Firebase.firestore
+    val auth = FirebaseAuth.getInstance()
+
+    val path = auth?.currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +64,16 @@ class MakeProfileActivity : AppCompatActivity(){
         storage= FirebaseStorage.getInstance()
         firestore= FirebaseFirestore.getInstance()
 
-        setProfile = findViewById(R.id.setProfile)
+        setProfileBtn = findViewById(R.id.setProfileBtn)
         setNickname = findViewById(R.id.setNickname)
         setProfileMsg = findViewById(R.id.setProfileMsg)
         submitBtn = findViewById(R.id.submitBtn)
 
         ActivityCompat.requestPermissions(this@MakeProfileActivity,
-            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
-        setProfile.setOnClickListener {
+        setProfileBtn.setOnClickListener {
+            println("눌림")
             val intent = Intent(Intent.ACTION_PICK) //선택하면 무언가를 띄움. 묵시적 호출
             intent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*"
@@ -69,11 +81,66 @@ class MakeProfileActivity : AppCompatActivity(){
             intent
             launcher.launch(intent)
         }
-        submitBtn.setOnClickListener {
 
+        submitBtn.setOnClickListener {
+            nickname = setNickname.text.toString()
+            profileMessage = setProfileMsg.text.toString()
+
+            val userId = nickname
+            val imageUrl = "background.png"
+            val profileMsg = profileMessage
+            val following = "0"
+            val follower = "0"
+
+            val itemMap = hashMapOf(
+                "userId" to userId,
+                "imageUrl" to imageUrl,
+                "profileMsg" to profileMsg,
+                "follower" to follower,
+                "following" to following
+            )
+
+            db.collection("users").document(path.toString()).set(itemMap)
+
+            Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            var intent = Intent(this, NaviActivity::class.java)
+            startActivity(intent)
+        }
+
+
+    }
+    var launcher = registerForActivityResult<Intent, ActivityResult>(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val imageUri = result.data?.data
+            if (imageUri != null) {
+                uploadFirebase(imageUri)
+            }
+            imageUri?.let {
+                Glide.with(this)
+                    .load(imageUri)
+                    .into(setProfileBtn)
+            }
         }
     }
 
+    fun uploadFirebase(uri: Uri) {
+        var storage: FirebaseStorage? = FirebaseStorage.getInstance()   //FirebaseStorage 인스턴스 생성
+        //파일 이름 생성.
+        var fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
+        //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
+        //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
+        var imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
+        //이미지 파일 업로드
+        imagesRef.putFile(uri!!).addOnSuccessListener {
+            Toast.makeText(baseContext, "success", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            println(it)
+            Toast.makeText(baseContext, "fail", Toast.LENGTH_SHORT).show()
+        }
+    }
+    /*
     inner class ButtonListener: View.OnClickListener {
         override fun onClick(v:View?) {
             when(v?.id) {
@@ -93,7 +160,7 @@ class MakeProfileActivity : AppCompatActivity(){
             imageUri?.let {
                 Glide.with(this)
                     .load(imageUri)
-                    .into(setProfile)
+                    .into(setProfileBtn)
             }
         }
     }
@@ -107,10 +174,10 @@ class MakeProfileActivity : AppCompatActivity(){
         var imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
         //이미지 파일 업로드
         imagesRef.putFile(uri!!).addOnSuccessListener {
-            Toast.makeText(baseContext, "success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(baseContext, "이미지 업로드 성공", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
             println(it)
-            Toast.makeText(baseContext, "fail", Toast.LENGTH_SHORT).show()
+            Toast.makeText(baseContext, "이미지 업로드 실패", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -128,6 +195,6 @@ class MakeProfileActivity : AppCompatActivity(){
         })
 
 
-    }
+    }*/
 
 }

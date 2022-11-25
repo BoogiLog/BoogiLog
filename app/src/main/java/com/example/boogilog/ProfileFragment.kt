@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
-    var uid: String? = null
+    lateinit var uid: String
     var auth: FirebaseAuth? = null
     var firestore: FirebaseFirestore? = null
     var storage: FirebaseStorage? = null
@@ -39,7 +39,7 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         //firebase 서비스 초기화
-        uid = auth?.currentUser?.uid
+
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
@@ -49,10 +49,31 @@ class ProfileFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         updateList()
 
+        val path = auth?.currentUser?.email
+        System.out.println(path)
+        val path2 = auth?.currentUser?.uid
+        System.out.println(path2)
+
         db.collection("users")
-            .document("test").get()
+            .document(path2.toString()).get()
             .addOnSuccessListener {
-                binding.following.text = it["nick"].toString()
+                var follower = it["follower"].toString()
+                binding.follower.text = follower
+
+                var following = it["following"].toString()
+                binding.following.text = following
+
+                var userId = it["userId"].toString()
+                binding.userId.text = userId
+
+                var profileMsg = it["profileMsg"].toString()
+                binding.profileMsg.text = profileMsg
+
+                System.out.println(follower)
+                System.out.println(following)
+                System.out.println(userId)
+                System.out.println(profileMsg)
+
             }
 
         storage = Firebase.storage

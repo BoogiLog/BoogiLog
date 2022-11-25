@@ -43,12 +43,12 @@ class AddPhotoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_photo)
 
-        storage= FirebaseStorage.getInstance()
-        firestore= FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
-        imageIv=findViewById(R.id.image_iv)
-        textEt=findViewById(R.id.textEdit)
-        uploadBtn=findViewById(R.id.uploadBtn)
+        imageIv = findViewById(R.id.image_iv)
+        textEt = findViewById(R.id.textEdit)
+        uploadBtn = findViewById(R.id.uploadBtn)
 
         ActivityCompat.requestPermissions(this@AddPhotoActivity,
             arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)

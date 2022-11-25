@@ -12,6 +12,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -20,9 +21,13 @@ class SignInActivity : AppCompatActivity() {
     lateinit var inputPwd: EditText
     lateinit var loginBtn: Button
     lateinit var goSignUp : Button
-    lateinit var auth: FirebaseAuth
-    lateinit var firestore :FirebaseFirestore
     var firebaseAuth:FirebaseAuth? = null
+    lateinit var firestore :FirebaseFirestore
+
+    val db: FirebaseFirestore = Firebase.firestore
+    var auth = FirebaseAuth.getInstance()
+
+    val path = auth?.currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +43,14 @@ class SignInActivity : AppCompatActivity() {
         loginBtn = findViewById(R.id.signInBtn)
         goSignUp = findViewById(R.id.gotoSignUp)
 
-        if(true) {
-            var userInfo = User()
-            userInfo.uid = auth?.uid
-            userInfo.userId = auth?.currentUser?.email
-            firestore?.collection("users")?.document(auth?.uid.toString())?.set(userInfo)
-        }
+        val path2 = auth?.currentUser?.uid
+
+        db.collection("users")
+            .document(path2.toString()).get()
+            .addOnSuccessListener {
+                System.out.println("success")
+            }
+
 
         loginBtn.setOnClickListener {
 
@@ -90,7 +97,7 @@ class SignInActivity : AppCompatActivity() {
             .addOnCompleteListener {
                     result->
                 if(result.isSuccessful){
-                    var intent = Intent(this, MakeProfileActivity::class.java)
+                    var intent = Intent(this, NaviActivity::class.java)
                     startActivity(intent)
                 }
             }

@@ -17,10 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoogiLog"
         tools:targetApi="31">
+        <activity android:name=".NaviActivity"></activity>
         <activity android:name=".testActivity"></activity>
         <activity android:name=".AddPhotoActivity"></activity>
         <activity android:name=".MakeProfileActivity"></activity>
-        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
+
         <activity
             android:name=".PostWrite"
             android:exported="false">
@@ -32,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".NaviActivity"
+            android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
