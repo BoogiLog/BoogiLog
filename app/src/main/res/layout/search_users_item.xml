@@ -38,7 +38,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="50dp"
         android:text="TextView"
-        android:textSize="28dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageButton"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

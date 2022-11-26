@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val imgBtn = binding.write
+
         navi = NaviActivity()
 
         updateList()
@@ -48,9 +48,14 @@ class HomeFragment : Fragment() {
 
         storage = Firebase.storage
 
+        binding.search.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val intent = Intent(context, SearchUserActivity::class.java)
+                startActivity(intent)
+            }
+        })
 
-
-        imgBtn.setOnClickListener(object : View.OnClickListener {
+        binding.write.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val intent = Intent(context, PostWrite::class.java)
                 startActivity(intent)
@@ -60,10 +65,6 @@ class HomeFragment : Fragment() {
         adapter.setItemClickListener(object : PostAdapter.OnItemClickListener {
             override fun onClickListView(v: View, position: Int) {
                 super.onClickListView(v, position)
-                //val intent = Intent(context, GoToPostFragment::class.java)
-                //startActivity(intent)
-                //viewModel.setKey("test")
-                //navi!!.fragmentChange(1)
                 println("아이디 : " + adapter.getDocId(position))
                 val key = adapter.getDocId(position).toString()
                 val intent = Intent(context, GoToPostActivity::class.java)
@@ -94,7 +95,8 @@ class HomeFragment : Fragment() {
         itemsCollectionRef.document("test").set(itemMap)
     }
     fun updateList(){
-        itemsCollectionRef.document(path.toString()).collection("posting").get().addOnSuccessListener {
+        //itemsCollectionRef.document(path.toString()).collection("posting").get().addOnSuccessListener {
+        itemsCollectionRef.get().addOnSuccessListener {
             items = mutableListOf<PostItem>()
             for(doc in it){
                 items.add(PostItem(doc))
