@@ -13,15 +13,16 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 
-data class SearchItem(var id : String, var follow : Boolean)
+data class SearchItem(var id : String, var follow : String)
 
 
 class SearchAdapter (private val activity: SearchUserActivity, private var searchItems: List<SearchItem>):
     RecyclerView.Adapter<SearchAdapter.SearchItemViewHolder>(){
 
     val db: FirebaseFirestore = Firebase.firestore
-    val auth = FirebaseAuth.getInstance()
-    val path = auth?.currentUser?.email
+    var auth:FirebaseAuth? =null
+
+
 
     inner class SearchItemViewHolder(val binding: SearchUsersItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val btn = binding.button;
@@ -45,50 +46,40 @@ class SearchAdapter (private val activity: SearchUserActivity, private var searc
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
         var storage: FirebaseStorage
         storage = Firebase.storage
+        auth = FirebaseAuth.getInstance()
+        val path = auth?.currentUser?.uid
+        println("path " + path)
 
         val item = searchItems[position]
         println("searchItem: " + item.id)
         holder.binding.user.text = item.id
-        if(item.follow == false)
+
+        if(item.follow == "false")
             holder.binding.button.text = "팔로우"
         else
             holder.binding.button.text = "팔로잉"
-
+        val auth = FirebaseAuth.getInstance()
+        println("what ? : " + auth.currentUser?.email.toString())
+        val test = auth.currentUser?.email.toString()
         holder.binding.button.setOnClickListener {
             if(holder.binding.button.text === "팔로잉") {
                 holder.binding.button.text = "팔로우"
-
-                var id = "hey"
-                var follow = "hey"
-
                 val itemMap = hashMapOf(
-                    "id" to id,
-                    "follow" to follow
+                    "check" to false
                 )
-
-                db.collection("users")
-                    .document(path.toString())
-                    .collection("follower")
-                    .document(item.id)
-                    .set(itemMap)
+                println("pressed following" + item.id)
+                db.collection("friends").document(item.id).set(itemMap)
             }
 
             else {
-                holder.binding.button.text = "팔로잉"
-
-                var id = "hey"
-                var follow = "hey"
-
                 val itemMap = hashMapOf(
-                    "id" to id,
-                    "follow" to follow
+                    "check" to true
                 )
 
-                db.collection("users")
-                    .document(path.toString())
-                    .collection("following")
-                    .document(item.id)
-                    .set(itemMap)
+                println("path : " + path)
+                holder.binding.button.text = "팔로잉"
+                println("pressed following" + item.id)
+                db.collection("friends").document(item.id).set(itemMap)
             }
         }
     }

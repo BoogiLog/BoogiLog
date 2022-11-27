@@ -10,8 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.boogilog.HomeFragment
 import com.example.boogilog.R
 import com.example.boogilog.databinding.ActivityNaviBinding
-import com.example.boogilog.fragments.SearchFragment
-import kotlinx.android.synthetic.main.fragment_home.*
 
 private const val TAG_HOME = "home_fragment"
 private const val TAG_PROFILE = "profile_fragment"
