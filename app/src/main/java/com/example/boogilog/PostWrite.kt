@@ -39,7 +39,9 @@ class PostWrite : AppCompatActivity() {
 
     private var photoUri: Uri? = null
 
-    var auth: FirebaseAuth? = null
+    val auth = FirebaseAuth.getInstance()
+    val path = auth?.currentUser?.email
+
     var document: Int = 0
     var check: Int = 0
     var selectImage: Uri?=null
@@ -78,15 +80,13 @@ class PostWrite : AppCompatActivity() {
             if(fileName != null) {
 
                 val itemMap = hashMapOf(
-                    "nick" to "hi" ,
+                    "nick" to  path,
                     "postHead" to postHead,
                     "postBody" to postBody,
                     "profileImgUrl" to "image.jpg",
                     "postImgUrl" to fileName,
                     "postDate" to "2022.11.25"
                 )
-                auth = FirebaseAuth.getInstance()
-                val path = auth?.currentUser?.uid
                 itemsCollectionRef.document(path.toString()).collection("posting")
                     .document(fileName!!)
                     .set(itemMap)

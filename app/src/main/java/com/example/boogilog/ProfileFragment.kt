@@ -1,5 +1,6 @@
 package com.example.boogilog
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,15 +21,16 @@ import kotlinx.android.synthetic.main.activity_make_profile.*
 
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
+import com.google.firebase.storage.StorageReference
 
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
-    var auth: FirebaseAuth? = null
+    val auth = FirebaseAuth.getInstance()
+    val path = auth?.currentUser?.email
     var firestore: FirebaseFirestore? = null
     var storage: FirebaseStorage? = null
     val db: FirebaseFirestore = Firebase.firestore
     var userdata = mutableListOf<User>()
-    lateinit var imageRef2:String
 
     private var adapter = ProfileAdapter(this@ProfileFragment, userdata)
     private val itemsCollectionRef = db.collection("users")
@@ -37,7 +39,6 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
@@ -50,10 +51,6 @@ class ProfileFragment : Fragment() {
 
         storage = Firebase.storage
 
-        val path = auth?.currentUser?.email
-        System.out.println(path)
-        val path2 = auth?.currentUser?.uid
-        System.out.println(path2)
 
         var imageUri: String?
 
@@ -63,12 +60,6 @@ class ProfileFragment : Fragment() {
 
                 var storage :FirebaseStorage= Firebase.storage
 
-                var follower = it["follower"].toString()
-                binding.follower.text = follower
-
-                var following = it["following"].toString()
-                binding.following.text = following
-
                 var userId = it["userId"].toString()
                 binding.userId.text = userId
 
@@ -77,27 +68,26 @@ class ProfileFragment : Fragment() {
 
                 imageUri = it["imageUri"].toString()
 
-                imageRef2 = storage.getReferenceFromUrl(
+                var imageRef2 = storage.getReferenceFromUrl(
                     "gs://boogilog-30005.appspot.com/images/" + imageUri
-                ).toString()
-
-                Glide.with(this)
-                    .load("gs://boogilog-30005.appspot.com/image.jpg")
-                    .into(binding.backgroundProfile)
-
-                println(imageRef2)
-                println(follower)
-                println(following)
-                println(userId)
-                println(profileMsg)
-                println(imageUri)
+                )
+                displayImageRef(imageRef2, binding.profile)
             }
 
         return binding.root
     }
 
+    private fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
+        imageRef?.getBytes(Long.MAX_VALUE)?.addOnSuccessListener {
+            val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
+            view.setImageBitmap(bmp)
+        }?.addOnFailureListener {
+            // Failed to download the image
+        }
+    }
+
     fun updateList(){
-        itemsCollectionRef.get().addOnSuccessListener {
+        itemsCollectionRef.document(path.toString()).collection("posting").get().addOnSuccessListener {
             userdata = mutableListOf<User>()
             for(doc in it){
                 userdata.add(User(doc))

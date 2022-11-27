@@ -25,10 +25,10 @@ class HomeFragment : Fragment() {
     private var adapter = PostAdapter(this@HomeFragment, items)
 
     private val db : FirebaseFirestore = Firebase.firestore
-    private val itemsCollectionRef = db.collection("post")
-
+    private val itemsCollectionPost = db.collection("post")
+    private val itemsCollectionFriends = db.collection("friends")
     val auth = FirebaseAuth.getInstance()
-    val path = auth?.currentUser?.uid
+    val path = auth?.currentUser?.email
 
     lateinit var storage: FirebaseStorage
     private var photoUri: Uri? = null
@@ -76,30 +76,24 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
-    fun createPost(){
-        // DB 만들기
-        val nick = "hansung1"
-        val postHead = "어렵다"
-        val postBody = "이미지업로드!!!"
-        val profileImgUrl = "achol.png"
-        val postImgUrl = "image.jpg"
-        val postDate = LocalDateTime.now().toString()
-        val itemMap = hashMapOf(
-            "nick" to nick,
-            "postHead" to postHead,
-            "postBody" to postBody,
-            "profileImgUrl" to profileImgUrl,
-            "postImgUrl" to postImgUrl,
-            "postDate" to postDate
-        )
-        itemsCollectionRef.document("test").set(itemMap)
-    }
+
     fun updateList(){
         //itemsCollectionRef.document(path.toString()).collection("posting").get().addOnSuccessListener {
-        itemsCollectionRef.get().addOnSuccessListener {
+        itemsCollectionPost.get().addOnSuccessListener {
             items = mutableListOf<PostItem>()
             for(doc in it){
-                items.add(PostItem(doc))
+                if(doc["nick"].toString() !== path) { // 게시글 쓴 사람이 자신이 아니고
+                    itemsCollectionFriends.get().addOnSuccessListener{
+                        for (doc2 in it) {
+                            if (doc2["check"].toString() === "true") {
+                                println("What NICK ? " + doc["nick"].toString())
+                                println("What ID ? " + doc2.id)
+                                items.add(PostItem(doc))
+                            }
+                        }
+                    }
+                }
+                //items.add(PostItem(doc))
             }
             adapter?.updateList(items)
         }
