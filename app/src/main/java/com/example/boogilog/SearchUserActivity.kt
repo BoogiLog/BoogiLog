@@ -19,15 +19,15 @@ class SearchUserActivity : AppCompatActivity() {
     var items = mutableListOf<SearchItem>()
     private var adapter = SearchAdapter(this, items)
 
-
+    val auth = FirebaseAuth.getInstance()
+    val path = auth?.currentUser?.email
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = SearchUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val auth = FirebaseAuth.getInstance()
-        val path = auth?.currentUser?.uid
+
         println("user? : "+path)
 
         updateList()
@@ -45,14 +45,11 @@ class SearchUserActivity : AppCompatActivity() {
     fun updateList(){
         val list = itemsCollectionRef.document().id
         println("값 : " +  list)
-        db.collection("users").get().addOnSuccessListener {
+        db.collection("friends").get().addOnSuccessListener {
             items = mutableListOf<SearchItem>()
             for(doc in it.documents){
-                if(doc.id !== list) {
-
+                if(doc.id != path)
                     items.add(SearchItem(doc.id, "false"))
-                }
-                println("query : " + doc.id)
             }
             adapter?.updateList(items)
         }
