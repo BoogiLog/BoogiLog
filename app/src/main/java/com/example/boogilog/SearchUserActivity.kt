@@ -48,8 +48,9 @@ class SearchUserActivity : AppCompatActivity() {
         db.collection("friends").get().addOnSuccessListener {
             items = mutableListOf<SearchItem>()
             for(doc in it.documents){
-                if(doc.id != path)
-                    items.add(SearchItem(doc.id, "false"))
+                if(doc.id != path) {
+                    items.add(SearchItem(doc.id, doc["check"].toString()))
+                }
             }
             adapter?.updateList(items)
         }
