@@ -40,7 +40,8 @@ class SearchUserActivity : AppCompatActivity() {
         db.collection("users").get().addOnSuccessListener {
             items = mutableListOf<SearchItem>()
             for(doc in it.documents){
-                items.add(SearchItem(doc.id, false))
+                if(doc.id !== list)
+                    items.add(SearchItem(doc.id, false))
                 println("query : " + doc.id)
             }
             adapter?.updateList(items)

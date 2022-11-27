@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.boogilog.HomeFragment
 import com.example.boogilog.R
 import com.example.boogilog.databinding.ActivityNaviBinding
-import com.example.boogilog.fragments.SearchFragment
 
 private const val TAG_HOME = "home_fragment"
 private const val TAG_SEARCH = "search_fragment"
@@ -30,7 +29,6 @@ class NaviActivity : AppCompatActivity() {
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
-                R.id.searchFragment -> setFragment(TAG_SEARCH, SearchFragment())
                 R.id.profileFragment-> setFragment(TAG_PROFILE, ProfileFragment())
             }
             true

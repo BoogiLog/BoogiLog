@@ -40,19 +40,15 @@ import java.time.LocalDateTime
 import java.util.*
 
 class MakeProfileActivity : AppCompatActivity(){
-    lateinit var setProfileBtn: ImageButton
-    lateinit var setNickname: EditText
-    lateinit var setProfileMsg :EditText
-    lateinit var submitBtn: Button
     lateinit var nickname:String
     lateinit var profileMessage:String
-
+    lateinit var imageUri:Uri
+    lateinit var fileName:String
     private val Gallery = 1
     var selectImage: Uri?=null
 
     lateinit var storage: FirebaseStorage
     val database = FirebaseDatabase.getInstance().reference
-    val conditionRef = database.child("Users")
 
     lateinit var firestore :FirebaseFirestore
 
@@ -69,7 +65,7 @@ class MakeProfileActivity : AppCompatActivity(){
         storage= FirebaseStorage.getInstance()
         firestore= FirebaseFirestore.getInstance()
 
-        var setPofileBton = binding.setProfileBtn
+        var setProfileBtn = binding.setProfileBtn
         var setNickname = binding.setNickname
         var setProfileMsg = binding.setProfileMsg
         var submitBtn = binding.submitBtn
@@ -78,10 +74,12 @@ class MakeProfileActivity : AppCompatActivity(){
             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
         setProfileBtn.setOnClickListener {
-            println("눌림")
-            val intent = Intent(Intent.ACTION_GET_CONTENT) //선택하면 무언가를 띄움. 묵시적 호출
-            intent.setType("image/*")
-            startActivityForResult(intent, Gallery)
+            val intent = Intent(Intent.ACTION_PICK) //선택하면 무언가를 띄움. 묵시적 호출
+            intent.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*"
+            )
+            intent
+            launcher.launch(intent)
         }
 
         submitBtn.setOnClickListener {
@@ -89,14 +87,14 @@ class MakeProfileActivity : AppCompatActivity(){
             profileMessage = setProfileMsg.text.toString()
 
             val userId = nickname
-            val imageUrl = "background.png"
+            val photoname = fileName
             val profileMsg = profileMessage
             val following = "0"
             val follower = "0"
 
             val itemMap = hashMapOf(
                 "userId" to userId,
-                "imageUrl" to imageUrl,
+                "imageUri" to photoname,
                 "profileMsg" to profileMsg,
                 "follower" to follower,
                 "following" to following
@@ -115,7 +113,7 @@ class MakeProfileActivity : AppCompatActivity(){
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val imageUri = result.data?.data
+            imageUri = result.data?.data!!
             if (imageUri != null) {
                 uploadFirebase(imageUri)
             }
@@ -130,7 +128,7 @@ class MakeProfileActivity : AppCompatActivity(){
     private fun uploadFirebase(uri: Uri) {
         var storage: FirebaseStorage? = FirebaseStorage.getInstance()   //FirebaseStorage 인스턴스 생성
         //파일 이름 생성.
-        var fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
+        fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
         //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
         var imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}

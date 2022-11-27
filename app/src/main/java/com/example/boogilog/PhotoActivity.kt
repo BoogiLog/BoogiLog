@@ -19,7 +19,7 @@ class PhotoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo)
 
-        var id=intent.getStringExtra("id")
+        var id = intent.getStringExtra("id")
 
         firestore= FirebaseFirestore.getInstance()
         imageIv=findViewById(R.id.imgDES)
