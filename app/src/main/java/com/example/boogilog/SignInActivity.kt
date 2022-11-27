@@ -27,8 +27,6 @@ class SignInActivity : AppCompatActivity() {
     val db: FirebaseFirestore = Firebase.firestore
     var auth = FirebaseAuth.getInstance()
 
-    val path = auth?.currentUser?.uid
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_singin)
@@ -43,10 +41,10 @@ class SignInActivity : AppCompatActivity() {
         loginBtn = findViewById(R.id.signInBtn)
         goSignUp = findViewById(R.id.gotoSignUp)
 
-        val path2 = auth?.currentUser?.uid
+        val path = auth?.currentUser?.email
 
         db.collection("users")
-            .document(path2.toString()).get()
+            .document(path.toString()).get()
             .addOnSuccessListener {
                 System.out.println("success")
             }

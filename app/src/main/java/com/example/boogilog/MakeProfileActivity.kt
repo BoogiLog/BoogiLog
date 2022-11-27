@@ -55,7 +55,7 @@ class MakeProfileActivity : AppCompatActivity(){
     val db: FirebaseFirestore = Firebase.firestore
     val auth = FirebaseAuth.getInstance()
 
-    val path = auth?.currentUser?.uid
+    val path = auth?.currentUser?.email
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
