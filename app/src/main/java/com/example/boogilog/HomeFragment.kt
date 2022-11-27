@@ -25,10 +25,11 @@ class HomeFragment : Fragment() {
     private var adapter = PostAdapter(this@HomeFragment, items)
 
     private val db : FirebaseFirestore = Firebase.firestore
-    private val itemsCollectionPost = db.collection("post")
-    private val itemsCollectionFriends = db.collection("friends")
+
     val auth = FirebaseAuth.getInstance()
     val path = auth?.currentUser?.email
+    private val itemsCollectionPost = db.collection("post")
+    private val itemsCollectionFriends = db.collection(path.toString()+"friends")
 
     lateinit var storage: FirebaseStorage
     private var photoUri: Uri? = null
@@ -89,26 +90,25 @@ class HomeFragment : Fragment() {
         */
         var list : MutableList<String> = mutableListOf()
         itemsCollectionFriends.get().addOnSuccessListener {
-
             for(doc in it) {
-                println("doc : " + doc.id)
+                println("Now doc : " + doc.id)
                 if(doc.id !== path.toString() && doc["check"].toString() === "true") {
                     println("팔로잉 : " + doc.id)
                     list.add(doc.id)
                 }
             }
-            println("목록 " + list.size)
+            println("목록 " + list)
         }
 
         itemsCollectionPost.get().addOnSuccessListener {
             items = mutableListOf<PostItem>()
-
             for(doc in it){
                 if(list.size > 0) {
                     if (list.contains(doc["nick"].toString())) {
                         println("제발 " + doc.id)
                         items.add(PostItem(doc))
                     }
+                    println("오류")
                 }
             }
             adapter?.updateList(items)

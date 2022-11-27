@@ -20,8 +20,8 @@ class SearchAdapter (private val activity: SearchUserActivity, private var searc
     RecyclerView.Adapter<SearchAdapter.SearchItemViewHolder>(){
 
     val db: FirebaseFirestore = Firebase.firestore
-    var auth:FirebaseAuth? =null
-
+    val auth = FirebaseAuth.getInstance()
+    val path = auth?.currentUser?.email
 
 
     inner class SearchItemViewHolder(val binding: SearchUsersItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -46,8 +46,7 @@ class SearchAdapter (private val activity: SearchUserActivity, private var searc
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
         var storage: FirebaseStorage
         storage = Firebase.storage
-        auth = FirebaseAuth.getInstance()
-        val path = auth?.currentUser?.uid
+        val path = auth?.currentUser?.email
         println("path " + path)
 
         val item = searchItems[position]
@@ -60,7 +59,7 @@ class SearchAdapter (private val activity: SearchUserActivity, private var searc
             holder.binding.button.text = "팔로잉"
         val auth = FirebaseAuth.getInstance()
         println("what ? : " + auth.currentUser?.email.toString())
-        val test = auth.currentUser?.email.toString()
+        val test = auth.currentUser?.email
         holder.binding.button.setOnClickListener {
             if(holder.binding.button.text === "팔로잉") {
                 holder.binding.button.text = "팔로우"
@@ -68,7 +67,7 @@ class SearchAdapter (private val activity: SearchUserActivity, private var searc
                     "check" to false
                 )
                 println("pressed following" + item.id)
-                db.collection("friends").document(item.id).set(itemMap)
+                db.collection(test+"friends").document(item.id).set(itemMap)
             }
 
             else {
@@ -79,7 +78,7 @@ class SearchAdapter (private val activity: SearchUserActivity, private var searc
                 println("path : " + path)
                 holder.binding.button.text = "팔로잉"
                 println("pressed following" + item.id)
-                db.collection("friends").document(item.id).set(itemMap)
+                db.collection(test+"friends").document(item.id).set(itemMap)
             }
         }
     }

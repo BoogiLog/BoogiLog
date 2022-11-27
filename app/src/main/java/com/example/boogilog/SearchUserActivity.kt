@@ -45,7 +45,7 @@ class SearchUserActivity : AppCompatActivity() {
     fun updateList(){
         val list = itemsCollectionRef.document().id
         println("값 : " +  list)
-        db.collection("friends").get().addOnSuccessListener {
+        db.collection(path+"friends").get().addOnSuccessListener {
             items = mutableListOf<SearchItem>()
             for(doc in it.documents){
                 if(doc.id != path) {

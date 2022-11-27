@@ -103,9 +103,17 @@ class MakeProfileActivity : AppCompatActivity(){
             val friendMap = hashMapOf(
                 "check" to false
             )
-
+            var list : MutableList<String> = mutableListOf()
             db.collection("users").document(path.toString()).set(itemMap)
             db.collection("friends").document(path.toString()).set(friendMap)
+            db.collection("friends").get().addOnSuccessListener {
+
+                for(doc in it){
+                    list.add(it.documents.toString())
+                    println("Doc : " + doc.id)
+                    db.collection(path.toString()+"friends").document(doc.id).set(friendMap)
+                }
+            }
 
             Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
             var intent = Intent(this, NaviActivity::class.java)
