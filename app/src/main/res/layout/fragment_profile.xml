@@ -9,11 +9,11 @@
 
     <ImageView
         android:id="@+id/backgroundProfile"
-        android:layout_width="351dp"
-        android:layout_height="205dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="370dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -22,7 +22,7 @@
         android:id="@+id/profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,8 +58,8 @@
         android:id="@+id/editBtn"
         android:layout_width="89dp"
         android:layout_height="42dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="20dp"
         android:background="@android:color/transparent"
         android:text="프로필 편집"
         android:textSize="12sp"
@@ -71,7 +71,7 @@
         android:id="@+id/followerListBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="240dp"
         android:layout_marginEnd="10dp"
         android:background="@android:color/transparent"
         android:text="팔로워"
@@ -80,11 +80,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/follower"
+        android:layout_width="28dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/followerListBtn" />
+
+    <TextView
+        android:id="@+id/following"
+        android:layout_width="30dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="132dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/followingListBtn" />
+
     <Button
         android:id="@+id/followingListBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="240dp"
         android:layout_marginEnd="1dp"
         android:background="@android:color/transparent"
         android:text="팔로잉"
@@ -94,33 +114,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="408dp"
-        android:layout_height="446dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="411dp"
+        android:layout_height="495dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileMsg">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/follower"
-        android:layout_width="28dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followerListBtn" />
-
-    <TextView
-        android:id="@+id/following"
-        android:layout_width="30dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="132dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followingListBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

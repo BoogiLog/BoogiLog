@@ -10,9 +10,14 @@ import android.widget.ImageView
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.boogilog.databinding.FeedItemLayoutBinding
 import com.example.boogilog.databinding.ProfileItemLayoutBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -77,7 +82,7 @@ class ProfileAdapter(private val context: ProfileFragment, private var postItems
     }
 
     fun getDocId(position: Int): String {
-        return postItems[position].id
+        return postItems[position].imageUri
     }
 
     private fun displayImageRef(imageRef: StorageReference?, view: ImageView) {
@@ -96,15 +101,49 @@ class ProfileAdapter(private val context: ProfileFragment, private var postItems
     }
 
     override fun onBindViewHolder(holder: MyPostViewHolder, position: Int) {
+        var auth: FirebaseAuth? = null
+        auth = FirebaseAuth.getInstance()
+
         var storage :FirebaseStorage= Firebase.storage
+        val db: FirebaseFirestore = Firebase.firestore
+        val path2 = auth?.currentUser?.email
 
         val item = postItems[position]
         println("???????????: " + item.imageUri)
         holder.binding.postTitle.text = item.postHead
         holder.binding.postContent.text = item.postBody
+        var imageUri: String?
+
+        db.collection("users")
+            .document(path2.toString())
+            .collection("posting")
+            .document("IMAGE_20221027_101029_.png").get()
+            .addOnSuccessListener {
+                var storage :FirebaseStorage= Firebase.storage
+                var postHead = it["postHead"].toString()
+                holder.binding.postTitle.text = postHead
+                var postBody = it["postBody"].toString()
+                holder.binding.postContent.text = postBody
+
+                imageUri = it["postImgUrl"].toString()
+
+                var imageRef2 = storage.getReferenceFromUrl(
+                    "gs://boogilog-30005.appspot.com/images/" + imageUri
+                ).toString()
+
+                Glide.with(context)
+                    .load(imageRef2)
+                    .into(holder.binding.postImage)
+
+                println(imageRef2)
+                println(postHead)
+                println(postBody)
+                println(imageUri)
+            }
+
 
         val imageRef2 = storage.getReferenceFromUrl(
-            "gs://boogilog-30005.appspot.com/images" + item.imageUri
+            "gs://boogilog-30005.appspot.com/images/" + item.imageUri
         )
         //holder.binding.profile.background =
         displayImageRef(imageRef2, holder.binding.postImage)
