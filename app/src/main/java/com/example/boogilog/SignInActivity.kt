@@ -56,7 +56,6 @@ class SignInActivity : AppCompatActivity() {
             var password = inputPwd.text.toString()
             firebaseAuth = FirebaseAuth.getInstance()
 
-
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
@@ -68,8 +67,8 @@ class SignInActivity : AppCompatActivity() {
                     .addOnFailureListener {
                         Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
-
             }
+
             else if(email.isEmpty() && password.isNotEmpty()){
                 Toast.makeText(this, "이메일을 입력하세요.", Toast.LENGTH_LONG).show();
             }

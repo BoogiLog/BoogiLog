@@ -100,7 +100,12 @@ class MakeProfileActivity : AppCompatActivity(){
                 "following" to following
             )
 
+            val friendMap = hashMapOf(
+                "check" to false
+            )
+
             db.collection("users").document(path.toString()).set(itemMap)
+            db.collection("friends").document(path.toString()).set(friendMap)
 
             Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
             var intent = Intent(this, NaviActivity::class.java)
