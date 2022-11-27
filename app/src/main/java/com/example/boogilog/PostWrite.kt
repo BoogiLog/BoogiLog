@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.boogilog.databinding.ActivityPostBinding
@@ -34,7 +35,7 @@ class PostWrite : AppCompatActivity() {
 
     lateinit var storage: FirebaseStorage
     lateinit var firestore:FirebaseFirestore
-    lateinit var fileName:String
+    var fileName:String? = null
 
     private var photoUri: Uri? = null
 
@@ -74,24 +75,31 @@ class PostWrite : AppCompatActivity() {
             val postBody = binding.postingBody.text.toString()
             //val postImg = photoUri.toString()
             println("등록 클릭")
-            val itemMap = hashMapOf(
-                "nick" to "user1",
-                "postHead" to postHead,
-                "postBody" to postBody,
-                "profileImgUrl" to "image.jpg",
-                "postImgUrl" to fileName,
-                "postDate" to "2022.11.25"
-            )
-            auth = FirebaseAuth.getInstance()
-            val path = auth?.currentUser?.uid
-            itemsCollectionRef.document(path.toString()).collection("posting").document(fileName)
-                .set(itemMap)
-            itemsCollectionRef2.document("test").set(itemMap)
+            if(fileName != null) {
 
-            println("ViewModel : " + document)
-            Toast.makeText(baseContext, "게시물 등록 완료", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, NaviActivity::class.java)
-            startActivity(intent)
+                val itemMap = hashMapOf(
+                    "nick" to "hi" ,
+                    "postHead" to postHead,
+                    "postBody" to postBody,
+                    "profileImgUrl" to "image.jpg",
+                    "postImgUrl" to fileName,
+                    "postDate" to "2022.11.25"
+                )
+                auth = FirebaseAuth.getInstance()
+                val path = auth?.currentUser?.uid
+                itemsCollectionRef.document(path.toString()).collection("posting")
+                    .document(fileName!!)
+                    .set(itemMap)
+                itemsCollectionRef2.document(fileName!!).set(itemMap)
+
+                println("ViewModel : " + document)
+                Toast.makeText(baseContext, "게시물 등록 완료", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, NaviActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(baseContext, "사진을 등록하세요.", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -144,7 +152,7 @@ class PostWrite : AppCompatActivity() {
         fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
         //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
-        var imagesRef = storage!!.reference.child("/").child(fileName)    //기본 참조 위치/images/${fileName}
+        var imagesRef = storage!!.reference.child("/").child(fileName!!)    //기본 참조 위치/images/${fileName}
         //이미지 파일 업로드
         imagesRef.putFile(uri!!).addOnSuccessListener {
             Toast.makeText(baseContext, "Imgage ", Toast.LENGTH_SHORT).show()

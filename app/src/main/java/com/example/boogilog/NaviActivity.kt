@@ -11,9 +11,9 @@ import com.example.boogilog.HomeFragment
 import com.example.boogilog.R
 import com.example.boogilog.databinding.ActivityNaviBinding
 import com.example.boogilog.fragments.SearchFragment
+import kotlinx.android.synthetic.main.fragment_home.*
 
 private const val TAG_HOME = "home_fragment"
-private const val TAG_SEARCH = "search_fragment"
 private const val TAG_PROFILE = "profile_fragment"
 
 class NaviActivity : AppCompatActivity() {
@@ -30,7 +30,6 @@ class NaviActivity : AppCompatActivity() {
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.homeFragment -> setFragment(TAG_HOME, HomeFragment())
-                R.id.searchFragment -> setFragment(TAG_SEARCH, SearchFragment())
                 R.id.profileFragment-> setFragment(TAG_PROFILE, ProfileFragment())
             }
             true
@@ -46,17 +45,11 @@ class NaviActivity : AppCompatActivity() {
         }
 
         val home = manager.findFragmentByTag(TAG_HOME)
-        val search = manager.findFragmentByTag(TAG_SEARCH)
         val profile = manager.findFragmentByTag(TAG_PROFILE)
 
         if (home != null){
             fragTransaction.hide(home)
         }
-
-        if(search != null){
-            fragTransaction.hide(search)
-        }
-
         if(profile != null){
             fragTransaction.hide(profile)
         }
@@ -64,12 +57,6 @@ class NaviActivity : AppCompatActivity() {
         if (tag == TAG_HOME) {
             if (home != null) {
                 fragTransaction.show(home)
-            }
-        }
-
-        else if (tag == TAG_SEARCH) {
-            if (search!= null) {
-                fragTransaction.show(search)
             }
         }
 

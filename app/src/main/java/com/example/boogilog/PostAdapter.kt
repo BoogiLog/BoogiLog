@@ -139,7 +139,7 @@ class PostAdapter(private val context: HomeFragment, private var postItems: List
             holder.binding.like.setBackgroundResource(R.drawable.like)
         */
         val storageRef = storage.reference // reference to root
-        val imageRef1 = storage.getReferenceFromUrl(
+               val imageRef1 = storage.getReferenceFromUrl(
             "gs://boogilog-30005.appspot.com/"+item.profile
         )
 

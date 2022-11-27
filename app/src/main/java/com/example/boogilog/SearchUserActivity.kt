@@ -13,7 +13,7 @@ class SearchUserActivity : AppCompatActivity() {
     private lateinit var binding: SearchUserBinding
 
     private val db : FirebaseFirestore = Firebase.firestore
-    private val itemsCollectionRef = db.collection("user")
+    private val itemsCollectionRef = db.collection("users")
     var items = mutableListOf<SearchItem>()
     private var adapter = SearchAdapter(this, items)
 
@@ -40,7 +40,8 @@ class SearchUserActivity : AppCompatActivity() {
         db.collection("users").get().addOnSuccessListener {
             items = mutableListOf<SearchItem>()
             for(doc in it.documents){
-                items.add(SearchItem(doc.id, false))
+                if(doc.id !== list)
+                    items.add(SearchItem(doc.id, false))
                 println("query : " + doc.id)
             }
             adapter?.updateList(items)
