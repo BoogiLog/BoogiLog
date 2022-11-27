@@ -11,8 +11,9 @@
         android:id="@+id/backgroundProfile"
         android:layout_width="351dp"
         android:layout_height="205dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -30,14 +31,15 @@
 
     <TextView
         android:id="@+id/profileMsg"
-        android:layout_width="353dp"
-        android:layout_height="26dp"
+        android:layout_width="303dp"
+        android:layout_height="41dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="112dp"
         android:ems="21"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
 
@@ -45,30 +47,55 @@
         android:id="@+id/userId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/editBtn"
         android:layout_width="89dp"
         android:layout_height="42dp"
         android:layout_marginTop="160dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
         android:text="프로필 편집"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/backgroundProfile"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <Button
+        android:id="@+id/followerListBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"
+        android:text="팔로워"
+        app:layout_constraintEnd_toStartOf="@+id/followingListBtn"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/followingListBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="1dp"
+        android:background="@android:color/transparent"
+        android:text="팔로잉"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/followerListBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="408dp"
-        android:layout_height="450dp"
+        android:layout_height="446dp"
         android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileMsg">
@@ -76,45 +103,24 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/followingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="20dp"
-        android:text="팔로잉"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/followerText"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
-
-    <TextView
         android:id="@+id/follower"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="230dp"
+        android:layout_width="28dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followerText" />
+        app:layout_constraintTop_toBottomOf="@+id/followerListBtn" />
 
     <TextView
         android:id="@+id/following"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_width="30dp"
+        android:layout_height="33dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="132dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/follower"
-        app:layout_constraintTop_toBottomOf="@+id/followingText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/followingListBtn" />
 
-    <TextView
-        android:id="@+id/followerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="20dp"
-        android:text="팔로워"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/userId"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundProfile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

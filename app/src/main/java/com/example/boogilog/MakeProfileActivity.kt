@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.boogilog.databinding.ActivityMakeProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserInfo
 import com.google.firebase.database.DataSnapshot
@@ -32,24 +33,23 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import kotlinx.android.synthetic.main.activity_gotopost.*
 import kotlinx.android.synthetic.main.activity_make_profile.*
+import kotlinx.android.synthetic.main.activity_post.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 
 class MakeProfileActivity : AppCompatActivity(){
-    lateinit var setProfileBtn: ImageButton
-    lateinit var setNickname: EditText
-    lateinit var setProfileMsg :EditText
-    lateinit var submitBtn: Button
     lateinit var nickname:String
     lateinit var profileMessage:String
-
+    lateinit var imageUri:Uri
+    lateinit var fileName:String
+    private val Gallery = 1
     var selectImage: Uri?=null
 
     lateinit var storage: FirebaseStorage
     val database = FirebaseDatabase.getInstance().reference
-    val conditionRef = database.child("Users")
+
     lateinit var firestore :FirebaseFirestore
 
     val db: FirebaseFirestore = Firebase.firestore
@@ -59,21 +59,21 @@ class MakeProfileActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_make_profile)
+        var binding = ActivityMakeProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         storage= FirebaseStorage.getInstance()
         firestore= FirebaseFirestore.getInstance()
 
-        setProfileBtn = findViewById(R.id.setProfileBtn)
-        setNickname = findViewById(R.id.setNickname)
-        setProfileMsg = findViewById(R.id.setProfileMsg)
-        submitBtn = findViewById(R.id.submitBtn)
+        var setProfileBtn = binding.setProfileBtn
+        var setNickname = binding.setNickname
+        var setProfileMsg = binding.setProfileMsg
+        var submitBtn = binding.submitBtn
 
         ActivityCompat.requestPermissions(this@MakeProfileActivity,
             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
         setProfileBtn.setOnClickListener {
-            println("눌림")
             val intent = Intent(Intent.ACTION_PICK) //선택하면 무언가를 띄움. 묵시적 호출
             intent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*"
@@ -87,14 +87,14 @@ class MakeProfileActivity : AppCompatActivity(){
             profileMessage = setProfileMsg.text.toString()
 
             val userId = nickname
-            val imageUrl = "background.png"
+            val photoname = fileName
             val profileMsg = profileMessage
             val following = "0"
             val follower = "0"
 
             val itemMap = hashMapOf(
                 "userId" to userId,
-                "imageUrl" to imageUrl,
+                "imageUri" to photoname,
                 "profileMsg" to profileMsg,
                 "follower" to follower,
                 "following" to following
@@ -106,14 +106,14 @@ class MakeProfileActivity : AppCompatActivity(){
             var intent = Intent(this, NaviActivity::class.java)
             startActivity(intent)
         }
-
-
     }
+
+
     var launcher = registerForActivityResult<Intent, ActivityResult>(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            val imageUri = result.data?.data
+            imageUri = result.data?.data!!
             if (imageUri != null) {
                 uploadFirebase(imageUri)
             }
@@ -125,10 +125,10 @@ class MakeProfileActivity : AppCompatActivity(){
         }
     }
 
-    fun uploadFirebase(uri: Uri) {
+    private fun uploadFirebase(uri: Uri) {
         var storage: FirebaseStorage? = FirebaseStorage.getInstance()   //FirebaseStorage 인스턴스 생성
         //파일 이름 생성.
-        var fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
+        fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
         //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
         var imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
@@ -140,6 +140,23 @@ class MakeProfileActivity : AppCompatActivity(){
             Toast.makeText(baseContext, "fail", Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                Gallery -> {
+                    try{
+                        selectImage = data?.data
+                        setProfileBtn.setImageURI(selectImage)
+                        uploadFirebase(selectImage!!)
+                    }catch (e:Exception){}
+                }
+            }
+        }
+    }
+
+
     /*
     inner class ButtonListener: View.OnClickListener {
         override fun onClick(v:View?) {

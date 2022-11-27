@@ -65,7 +65,7 @@ class AddPhotoActivity : AppCompatActivity() {
         uploadBtn.setOnClickListener {
             if(selectImage!=null) {
                 var fileName =
-                    SimpleDateFormat("yyyyMMddHHmmss").format(Date()) // 파일명이 겹치면 안되기 떄문에 시년월일분초 지정
+                    SimpleDateFormat("yyyyMMddHHmmss").format(Date())
                 storage.getReference().child("images").child(fileName)
                     .putFile(selectImage!!)//어디에 업로드할지 지정
                     .addOnSuccessListener {
@@ -82,7 +82,7 @@ class AddPhotoActivity : AppCompatActivity() {
                         }
                     }
             } else {
-                Toast.makeText(baseContext, "사진선택해", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, "이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
