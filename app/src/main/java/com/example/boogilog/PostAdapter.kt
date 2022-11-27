@@ -25,8 +25,7 @@ data class PostItem(var id : String,
                     var postBody : String,
                     var profile: String,
                     var postImgUrl : String,
-                    var postDate : String,
-                    val like: String) {
+                    var postDate : String) {
     constructor(doc: QueryDocumentSnapshot) :
             this(doc.id,
                 doc["nick"].toString(),
@@ -34,8 +33,7 @@ data class PostItem(var id : String,
                 doc["postBody"].toString(),
                 doc["profileImgUrl"].toString(),
                 doc["postImgUrl"].toString(),
-                doc["postDate"].toString(),
-                doc["like"].toString())
+                doc["postDate"].toString())
     constructor(key: String, map: Map<*, *>) :
             this(key,
                 map["nick"].toString(),
@@ -43,8 +41,8 @@ data class PostItem(var id : String,
                 map["postBody"].toString(),
                 map["profileImgUrl"].toString(),
                 map["postImgUrl"].toString(),
-                map["postDate"].toString(),
-                map["like"].toString())
+                map["postDate"].toString()
+            )
 
 }
 

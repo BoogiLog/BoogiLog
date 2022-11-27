@@ -78,25 +78,42 @@ class HomeFragment : Fragment() {
     }
 
     fun updateList(){
-        //itemsCollectionRef.document(path.toString()).collection("posting").get().addOnSuccessListener {
+        /*
         itemsCollectionPost.get().addOnSuccessListener {
             items = mutableListOf<PostItem>()
             for(doc in it){
-                if(doc["nick"].toString() !== path) { // 게시글 쓴 사람이 자신이 아니고
-                    itemsCollectionFriends.get().addOnSuccessListener{
-                        for (doc2 in it) {
-                            if (doc2["check"].toString() === "true") {
-                                println("What NICK ? " + doc["nick"].toString())
-                                println("What ID ? " + doc2.id)
-                                items.add(PostItem(doc))
-                            }
-                        }
-                    }
-                }
-                //items.add(PostItem(doc))
+                items.add(PostItem(doc))
             }
             adapter?.updateList(items)
         }
+        */
+        var list : MutableList<String> = mutableListOf()
+        itemsCollectionFriends.get().addOnSuccessListener {
+
+            for(doc in it) {
+                println("doc : " + doc.id)
+                if(doc.id !== path.toString() && doc["check"].toString() === "true") {
+                    println("팔로잉 : " + doc.id)
+                    list.add(doc.id)
+                }
+            }
+            println("목록 " + list.size)
+        }
+
+        itemsCollectionPost.get().addOnSuccessListener {
+            items = mutableListOf<PostItem>()
+
+            for(doc in it){
+                if(list.size > 0) {
+                    if (list.contains(doc["nick"].toString())) {
+                        println("제발 " + doc.id)
+                        items.add(PostItem(doc))
+                    }
+                }
+            }
+            adapter?.updateList(items)
+        }
+
     }
     companion object {
         private const val TAG = "HomeFragment"

@@ -75,6 +75,11 @@ class PostWrite : AppCompatActivity() {
             viewModel.increaseCount()
             val postHead = binding.postingHead.text.toString()
             val postBody = binding.postingBody.text.toString()
+            var profile : String? = null
+            itemsCollectionRef.document(path.toString()).get().addOnSuccessListener {
+                profile = it["imageUri"].toString()
+            }
+
             //val postImg = photoUri.toString()
             println("등록 클릭")
             if(fileName != null) {
@@ -83,7 +88,7 @@ class PostWrite : AppCompatActivity() {
                     "nick" to  path,
                     "postHead" to postHead,
                     "postBody" to postBody,
-                    "profileImgUrl" to "image.jpg",
+                    "profileImgUrl" to profile,
                     "postImgUrl" to fileName,
                     "postDate" to "2022.11.25"
                 )
