@@ -91,33 +91,37 @@ class MakeProfileActivity : AppCompatActivity(){
             val profileMsg = profileMessage
             val following = "0"
             val follower = "0"
+            if(fileName != null) {
+                val itemMap = hashMapOf(
+                    "userId" to userId,
+                    "imageUri" to photoname,
+                    "profileMsg" to profileMsg,
+                    "follower" to follower,
+                    "following" to following
+                )
 
-            val itemMap = hashMapOf(
-                "userId" to userId,
-                "imageUri" to photoname,
-                "profileMsg" to profileMsg,
-                "follower" to follower,
-                "following" to following
-            )
+                val friendMap = hashMapOf(
+                    "check" to false
+                )
+                var list: MutableList<String> = mutableListOf()
+                db.collection("users").document(path.toString()).set(itemMap)
+                db.collection("friends").document(path.toString()).set(friendMap)
+                db.collection("friends").get().addOnSuccessListener {
 
-            val friendMap = hashMapOf(
-                "check" to false
-            )
-            var list : MutableList<String> = mutableListOf()
-            db.collection("users").document(path.toString()).set(itemMap)
-            db.collection("friends").document(path.toString()).set(friendMap)
-            db.collection("friends").get().addOnSuccessListener {
-
-                for(doc in it){
-                    list.add(it.documents.toString())
-                    println("Doc : " + doc.id)
-                    db.collection(path.toString()+"friends").document(doc.id).set(friendMap)
+                    for (doc in it) {
+                        list.add(it.documents.toString())
+                        println("Doc : " + doc.id)
+                        db.collection(path.toString() + "friends").document(doc.id).set(friendMap)
+                    }
                 }
-            }
 
-            Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-            var intent = Intent(this, NaviActivity::class.java)
-            startActivity(intent)
+                Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                var intent = Intent(this, NaviActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(this, "프로필 사진을 선택하세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
