@@ -43,7 +43,7 @@ class MakeProfileActivity : AppCompatActivity(){
     lateinit var nickname:String
     lateinit var profileMessage:String
     lateinit var imageUri:Uri
-    lateinit var fileName:String
+    var fileName: String? = null
     private val Gallery = 1
     var selectImage: Uri?=null
 
@@ -91,37 +91,36 @@ class MakeProfileActivity : AppCompatActivity(){
             val profileMsg = profileMessage
             val following = "0"
             val follower = "0"
-            if(fileName != null) {
-                val itemMap = hashMapOf(
-                    "userId" to userId,
-                    "imageUri" to photoname,
-                    "profileMsg" to profileMsg,
-                    "follower" to follower,
-                    "following" to following
-                )
 
-                val friendMap = hashMapOf(
-                    "check" to false
-                )
-                var list: MutableList<String> = mutableListOf()
-                db.collection("users").document(path.toString()).set(itemMap)
-                db.collection("friends").document(path.toString()).set(friendMap)
-                db.collection("friends").get().addOnSuccessListener {
+            val itemMap = hashMapOf(
+                "userId" to userId,
+                "imageUri" to photoname,
+                "profileMsg" to profileMsg,
+                "follower" to follower,
+                "following" to following
+            )
 
-                    for (doc in it) {
-                        list.add(it.documents.toString())
-                        println("Doc : " + doc.id)
-                        db.collection(path.toString() + "friends").document(doc.id).set(friendMap)
-                    }
+            val friendMap = hashMapOf(
+                "check" to false
+            )
+            var list: MutableList<String> = mutableListOf()
+            db.collection("users").document(path.toString()).set(itemMap)
+            db.collection("friends").document(path.toString()).set(friendMap)
+            db.collection("friends").get().addOnSuccessListener {
+
+                for (doc in it) {
+                    list.add(it.documents.toString())
+                    println("Doc : " + doc.id)
+                    db.collection(path.toString() + "friends").document(doc.id).set(friendMap)
                 }
-
+            }
+            if(fileName != null) {
                 Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                 var intent = Intent(this, NaviActivity::class.java)
                 startActivity(intent)
             }
-            else{
+            else
                 Toast.makeText(this, "프로필 사진을 선택하세요.", Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
@@ -148,7 +147,7 @@ class MakeProfileActivity : AppCompatActivity(){
         fileName = "IMAGE_${SimpleDateFormat("yyyymmdd_HHmmss").format(Date())}_.png"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
         //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
-        var imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
+        var imagesRef = storage!!.reference.child("images/").child(fileName!!)    //기본 참조 위치/images/${fileName}
         //이미지 파일 업로드
         imagesRef.putFile(uri!!).addOnSuccessListener {
             Toast.makeText(baseContext, "success", Toast.LENGTH_SHORT).show()

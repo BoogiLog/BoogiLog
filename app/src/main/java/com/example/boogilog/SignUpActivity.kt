@@ -49,7 +49,7 @@ class SignUpActivity : AppCompatActivity() {
                             } catch (e: Exception) {
                                 e.printStackTrace();
                                 if(password.length>=6)
-                                    Toast.makeText(this, "올바르지 않은 이메일 형식입니다.", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this, "올바르지 않은 이메일 형식이거나 이미 존재하는 이메일 입니다.", Toast.LENGTH_LONG).show()
                                 else if(email.isEmpty() && password.isNotEmpty()){
                                     Toast.makeText(this, "이메일을 입력하세요.", Toast.LENGTH_LONG).show();
                                 }
